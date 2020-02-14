@@ -3,6 +3,7 @@
 pushd() { builtin pushd $1 > /dev/null; }
 popd() { builtin popd > /dev/null; }
 
+cd programs/
 
 wd=$(pwd)
 export GOPATH="$wd/go"
@@ -33,7 +34,7 @@ mkdir -p toy/wasm_heap_stack/O0
 source ~/random_deps/emsdk/emsdk_env.sh > /dev/null
 
 # Build toyc
-pushd ../toy-wasm
+pushd ../../toy-wasm
 idris --build toy.ipkg
 export PATH=$PATH:$(pwd)
 popd

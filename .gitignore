@@ -1,9 +1,9 @@
-go/native
-go/wasm
-c/native
-c/wasm
-toy/wasm
-toy/wasm_heap_stack
+programs/go/native
+programs/go/wasm
+programs/c/native
+programs/c/wasm
+programs/toy/wasm
+programs/toy/wasm_heap_stack
 
 .ipynb_checkpoints/
 .Rhistory
