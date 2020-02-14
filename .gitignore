@@ -1,3 +1,9 @@
-bin
+go/native
+go/wasm
+c/native
+c/wasm
+toy/wasm
+toy/wasm_heap_stack
+
 .ipynb_checkpoints/
 .Rhistory
