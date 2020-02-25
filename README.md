@@ -2,7 +2,7 @@
 
 ## Setup
 
-- Make sure `toy-wasm` is cloned in a sibling directory to this directory.
+- Make sure `toy-wasm` is cloned in a sibling directory to this directory (probably as a submodule in `WasmContinuations`).
 - Make sure emscripten is installed
 - Add the following line to `~/.bashrc`: `alias emsdk_setup="source /path/to/emsdk_env.sh"`
 
