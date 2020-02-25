@@ -3,6 +3,9 @@
 pushd() { builtin pushd $1 > /dev/null; }
 popd() { builtin popd > /dev/null; }
 
+shopt -s expand_aliases
+source ~/.bashrc
+
 cd programs/
 
 wd=$(pwd)
@@ -31,7 +34,7 @@ mkdir -p toy/wasm_heap_stack/O0
 
 
 # Pull in emcc
-source ~/random_deps/emsdk/emsdk_env.sh > /dev/null
+emsdk_setup > /dev/null
 
 # Build toyc
 pushd ../../toy-wasm
