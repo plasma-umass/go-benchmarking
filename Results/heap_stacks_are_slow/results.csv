@@ -1,12 +1,12 @@
 Benchmark,Runtime,Time,Exec.command
-pi_no_thread,Go,0.459,programs/go/native/pi_no_thread 100000000
-pi_no_thread,Go Wasm,1.763,Scripts/wasm_wrapper_go.sh programs/go/wasm/pi_no_thread 100000000
-pi_no_thread,clang,2.435,programs/c/native/O0/pi_no_thread 100000000
-pi_no_thread,clang -O3,0.449,programs/c/native/O3/pi_no_thread 100000000
-pi_no_thread,emcc,1.799,node programs/c/wasm/O0/pi_no_thread.js 100000000
-pi_no_thread,emcc -O3,0.498,node programs/c/wasm/O3/pi_no_thread.js 100000000
-pi_no_thread,Toy,0.548,node ../toy-wasm/wrapper.js programs/toy/wasm/O/pi.wasm
-pi_no_thread,Toy Heap,1.406,node ../toy-wasm/wrapper.js programs/toy/wasm_heap_stack/O/pi.wasm
+pi_no_thread,Go,.4550,programs/go/native/pi_no_thread 100000000
+pi_no_thread,Go Wasm,1.7470,Scripts/wasm_wrapper_go.sh programs/go/wasm/pi_no_thread 100000000
+pi_no_thread,clang,2.4390,programs/c/native/O0/pi_no_thread 100000000
+pi_no_thread,clang -O3,.4470,programs/c/native/O3/pi_no_thread 100000000
+pi_no_thread,emcc,1.9220,node programs/c/wasm/O0/pi_no_thread.js 100000000
+pi_no_thread,emcc -O3,.5010,node programs/c/wasm/O3/pi_no_thread.js 100000000
+pi_no_thread,Toy,.5430,node ../toy-wasm/wrapper.js programs/toy/wasm/O/pi_no_thread.wasm
+pi_no_thread,Toy Heap,1.2480,node ../toy-wasm/wrapper.js programs/toy/wasm_heap_stack/O/pi_no_thread.wasm
 hailstone,Go,2.637,programs/go/native/hailstone 10000000
 hailstone,Go Wasm,8.707,Scripts/wasm_wrapper_go.sh programs/go/wasm/hailstone 10000000
 hailstone,clang,5.982,programs/c/native/O0/hailstone 10000000
@@ -20,6 +20,6 @@ hailstone_rec,Go Wasm,25.931,Scripts/wasm_wrapper_go.sh programs/go/wasm/hailsto
 hailstone_rec,clang,11.625,programs/c/native/O0/hailstone_rec 10000000
 hailstone_rec,clang -O3,8.254,programs/c/native/O3/hailstone_rec 10000000
 hailstone_rec,emcc,20.08,node programs/c/wasm/O0/hailstone_rec.js 10000000
-hailstone_rec,emcc -O3,9.8420,node programs/c/wasm/O3/hailstone_rec.js 10000000
+hailstone_rec,emcc -O3,9.842,node programs/c/wasm/O3/hailstone_rec.js 10000000
 hailstone_rec,Toy,9.088,node ../toy-wasm/wrapper.js programs/toy/wasm/O/hailstone_rec.wasm
 hailstone_rec,Toy Heap,15.945,node ../toy-wasm/wrapper.js programs/toy/wasm_heap_stack/O/hailstone_rec.wasm
