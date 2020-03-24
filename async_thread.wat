@@ -313,14 +313,8 @@
 
 
     (func $scheduler
-        (if (i64.eq (global.get $active_thread) (i64.const 0))
-            (then
-                (global.set $active_thread (i64.const 1))
-            )
-            (else
-                (global.set $active_thread (i64.const 0))
-            )
-        )
+        (call $enqueue (global.get $active_thread))
+        (global.set $active_thread (call $dequeue))
     )
 
 
@@ -359,6 +353,7 @@
                 (global.set $sleeping (i32.const 0))
                 (call $main)
                 (call $asyncify_stop_unwind)
+                (call $enqueue (local.get $tid))
 
                 (local.set $tid (i64.add (i64.const 1) (local.get $tid)))
                 (br_if 1 (i64.ge_s (local.get $tid) (global.get $numThreads)))

@@ -1,9 +1,12 @@
 (module
  (type $none_=>_none (func))
  (type $i32_=>_none (func (param i32)))
+ (type $i64_=>_none (func (param i64)))
  (type $f64_=>_none (func (param f64)))
  (type $none_=>_i32 (func (result i32)))
+ (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $i64_=>_i32 (func (param i64) (result i32)))
+ (type $none_=>_i64 (func (result i64)))
  (type $f64_=>_f64 (func (param f64) (result f64)))
  (import "spectest" "print" (func $print (param i32)))
  (import "spectest" "print_f64" (func $print_f64 (param f64)))
@@ -55,7 +58,94 @@
    )
   )
  )
- (func $thread_id_stack_info_addr (; 3 ;) (param $0 i64) (result i32)
+ (func $queue_addr (; 3 ;) (param $0 i32) (result i32)
+  (i32.add
+   (global.get $queue_base_addr)
+   (i32.shl
+    (local.get $0)
+    (i32.const 3)
+   )
+  )
+ )
+ (func $enqueue (; 4 ;) (param $0 i64)
+  (if
+   (i32.ne
+    (global.get $queue_len)
+    (i32.shl
+     (i32.const 1)
+     (global.get $queue_capacity_log2)
+    )
+   )
+   (block
+    (i64.store
+     (call $queue_addr
+      (global.get $queue_head_idx)
+     )
+     (local.get $0)
+    )
+    (global.set $queue_head_idx
+     (i32.and
+      (i32.add
+       (global.get $queue_head_idx)
+       (i32.const 1)
+      )
+      (i32.sub
+       (i32.shl
+        (i32.const 1)
+        (global.get $queue_capacity_log2)
+       )
+       (i32.const 1)
+      )
+     )
+    )
+    (global.set $queue_len
+     (i32.add
+      (global.get $queue_len)
+      (i32.const 1)
+     )
+    )
+   )
+  )
+ )
+ (func $dequeue (; 5 ;) (result i64)
+  (local $0 i64)
+  (if
+   (global.get $queue_len)
+   (block
+    (local.set $0
+     (i64.load
+      (call $queue_addr
+       (global.get $queue_tail_idx)
+      )
+     )
+    )
+    (global.set $queue_tail_idx
+     (i32.and
+      (i32.add
+       (global.get $queue_tail_idx)
+       (i32.const 1)
+      )
+      (i32.sub
+       (i32.shl
+        (i32.const 1)
+        (global.get $queue_capacity_log2)
+       )
+       (i32.const 1)
+      )
+     )
+    )
+    (global.set $queue_len
+     (i32.sub
+      (global.get $queue_len)
+      (i32.const 1)
+     )
+    )
+   )
+   (unreachable)
+  )
+  (local.get $0)
+ )
+ (func $thread_id_stack_info_addr (; 6 ;) (param $0 i64) (result i32)
   (i32.add
    (global.get $queue_after_addr)
    (i32.shl
@@ -66,7 +156,7 @@
    )
   )
  )
- (func $sleep (; 4 ;)
+ (func $sleep (; 7 ;)
   (if
    (global.get $sleeping)
    (block
@@ -87,7 +177,7 @@
    )
   )
  )
- (func $term (; 5 ;) (param $0 f64) (result f64)
+ (func $term (; 8 ;) (param $0 f64) (result f64)
   (f64.div
    (f64.convert_i64_s
     (i64.shl
@@ -118,7 +208,7 @@
    )
   )
  )
- (func $terms (; 6 ;)
+ (func $terms (; 9 ;)
   (local $0 i32)
   (local $1 i64)
   (local $2 f64)
@@ -413,7 +503,7 @@
    )
   )
  )
- (func $runtime (; 7 ;)
+ (func $runtime (; 10 ;)
   (local $0 i64)
   (local $1 i32)
   (global.set $termsPerThread
@@ -481,6 +571,9 @@
    )
    (call $terms)
    (call $asyncify_stop_unwind)
+   (call $enqueue
+    (local.get $0)
+   )
    (br_if $loop-in3
     (i64.lt_s
      (local.tee $0
@@ -515,21 +608,16 @@
    (call $print
     (i32.const 20)
    )
-   (if
-    (i64.eqz
-     (global.get $active_thread)
-    )
-    (global.set $active_thread
-     (i64.const 1)
-    )
-    (global.set $active_thread
-     (i64.const 0)
-    )
+   (call $enqueue
+    (global.get $active_thread)
+   )
+   (global.set $active_thread
+    (call $dequeue)
    )
    (br $loop-in4)
   )
  )
- (func $asyncify_start_unwind (; 8 ;) (param $0 i32)
+ (func $asyncify_start_unwind (; 11 ;) (param $0 i32)
   (global.set $__asyncify_state
    (i32.const 1)
   )
@@ -548,7 +636,7 @@
    (unreachable)
   )
  )
- (func $asyncify_stop_unwind (; 9 ;)
+ (func $asyncify_stop_unwind (; 12 ;)
   (global.set $__asyncify_state
    (i32.const 0)
   )
@@ -564,7 +652,7 @@
    (unreachable)
   )
  )
- (func $asyncify_start_rewind (; 10 ;) (param $0 i32)
+ (func $asyncify_start_rewind (; 13 ;) (param $0 i32)
   (global.set $__asyncify_state
    (i32.const 2)
   )
@@ -583,7 +671,7 @@
    (unreachable)
   )
  )
- (func $asyncify_stop_rewind (; 11 ;)
+ (func $asyncify_stop_rewind (; 14 ;)
   (global.set $__asyncify_state
    (i32.const 0)
   )
@@ -599,7 +687,7 @@
    (unreachable)
   )
  )
- (func $asyncify_get_state (; 12 ;) (result i32)
+ (func $asyncify_get_state (; 15 ;) (result i32)
   (global.get $__asyncify_state)
  )
 )
