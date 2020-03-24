@@ -351,8 +351,21 @@
         )
 
 
+        ;; Spawn all threads
+        (local.set $tid (i64.const 0))
+        (block
+            (loop
+                (global.set $active_thread (local.get $tid))
+                (global.set $sleeping (i32.const 0))
+                (call $main)
+                (call $asyncify_stop_unwind)
 
-        (global.set $active_thread (i64.const 0))
+                (local.set $tid (i64.add (i64.const 1) (local.get $tid)))
+                (br_if 1 (i64.ge_s (local.get $tid) (global.get $numThreads)))
+                (br 0)
+            )
+        )
+
 
 
         ;; (i32.store (i32.const 16) (i32.const 32))
@@ -363,18 +376,18 @@
 
         ;; (global.set $active_thread (i32.const 1))
 
-        (call $main) ;; this is first
-        (call $asyncify_stop_unwind)
-        ;; (call $print (i32.const 1337))
-        ;; (call $print (i32.const 40))
+        ;; (call $main) ;; this is first
+        ;; (call $asyncify_stop_unwind)
+        ;; ;; (call $print (i32.const 1337))
+        ;; ;; (call $print (i32.const 40))
 
-        (call $scheduler)
-        ;; (call $print (global.get $active_thread))
-        (global.set $sleeping (i32.const 0))
-        (call $main)
-        (call $asyncify_stop_unwind)
-        ;; (call $print (i32.const 41))
-        (call $scheduler)
+        ;; (call $scheduler)
+        ;; ;; (call $print (global.get $active_thread))
+        ;; (global.set $sleeping (i32.const 0))
+        ;; (call $main)
+        ;; (call $asyncify_stop_unwind)
+        ;; ;; (call $print (i32.const 41))
+        ;; (call $scheduler)
 
         (loop
             ;; (call $print (i32.const 1234))

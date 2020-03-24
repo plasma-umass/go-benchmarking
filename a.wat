@@ -413,20 +413,7 @@
    )
   )
  )
- (func $scheduler (; 7 ;)
-  (if
-   (i64.eqz
-    (global.get $active_thread)
-   )
-   (global.set $active_thread
-    (i64.const 1)
-   )
-   (global.set $active_thread
-    (i64.const 0)
-   )
-  )
- )
- (func $runtime (; 8 ;)
+ (func $runtime (; 7 ;)
   (local $0 i64)
   (local $1 i32)
   (global.set $termsPerThread
@@ -482,19 +469,31 @@
     )
    )
   )
-  (global.set $active_thread
+  (local.set $0
    (i64.const 0)
   )
-  (call $terms)
-  (call $asyncify_stop_unwind)
-  (call $scheduler)
-  (global.set $sleeping
-   (i32.const 0)
+  (loop $loop-in3
+   (global.set $active_thread
+    (local.get $0)
+   )
+   (global.set $sleeping
+    (i32.const 0)
+   )
+   (call $terms)
+   (call $asyncify_stop_unwind)
+   (br_if $loop-in3
+    (i64.lt_s
+     (local.tee $0
+      (i64.add
+       (local.get $0)
+       (i64.const 1)
+      )
+     )
+     (i64.const 2)
+    )
+   )
   )
-  (call $terms)
-  (call $asyncify_stop_unwind)
-  (call $scheduler)
-  (loop $loop-in2
+  (loop $loop-in4
    (call $asyncify_start_rewind
     (call $thread_id_stack_info_addr
      (global.get $active_thread)
@@ -516,11 +515,21 @@
    (call $print
     (i32.const 20)
    )
-   (call $scheduler)
-   (br $loop-in2)
+   (if
+    (i64.eqz
+     (global.get $active_thread)
+    )
+    (global.set $active_thread
+     (i64.const 1)
+    )
+    (global.set $active_thread
+     (i64.const 0)
+    )
+   )
+   (br $loop-in4)
   )
  )
- (func $asyncify_start_unwind (; 9 ;) (param $0 i32)
+ (func $asyncify_start_unwind (; 8 ;) (param $0 i32)
   (global.set $__asyncify_state
    (i32.const 1)
   )
@@ -539,7 +548,7 @@
    (unreachable)
   )
  )
- (func $asyncify_stop_unwind (; 10 ;)
+ (func $asyncify_stop_unwind (; 9 ;)
   (global.set $__asyncify_state
    (i32.const 0)
   )
@@ -555,7 +564,7 @@
    (unreachable)
   )
  )
- (func $asyncify_start_rewind (; 11 ;) (param $0 i32)
+ (func $asyncify_start_rewind (; 10 ;) (param $0 i32)
   (global.set $__asyncify_state
    (i32.const 2)
   )
@@ -574,7 +583,7 @@
    (unreachable)
   )
  )
- (func $asyncify_stop_rewind (; 12 ;)
+ (func $asyncify_stop_rewind (; 11 ;)
   (global.set $__asyncify_state
    (i32.const 0)
   )
@@ -590,7 +599,7 @@
    (unreachable)
   )
  )
- (func $asyncify_get_state (; 13 ;) (result i32)
+ (func $asyncify_get_state (; 12 ;) (result i32)
   (global.get $__asyncify_state)
  )
 )
