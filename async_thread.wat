@@ -330,11 +330,13 @@
 
         (global.set $termsPerThread (i64.div_s (global.get $numTerms) (global.get $numThreads)))
 
+        ;; Initialize thread queue
         (call $queue_init 
             (i32.wrap_i64 (i64.mul (i64.const 8) (global.get $numThreads)))
             (call $containing_log_2_i32 (i32.wrap_i64 (global.get $numThreads)))
         )
 
+        ;; Initialize table of Asyncify stack data structures
         (local.set $tid (i64.const 0))
         (block
             (loop
