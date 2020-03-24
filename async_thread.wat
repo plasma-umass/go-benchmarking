@@ -133,7 +133,13 @@
     )
 
     (func $thread_id_stack_addr_start (param $k i64) (result i32)
-        (i32.add (global.get $queue_after_addr) (i32.shl (i32.wrap_i64 (local.get $k)) (i32.const 10))
+        (i32.add 
+            (global.get $queue_after_addr) 
+            (i32.shl 
+                (i32.wrap_i64 (local.get $k)) 
+                (i32.const 10)
+            )
+        )
     )
 
     (func $thread_id_stack_addr_end (param $k i64) (result i32)
@@ -152,7 +158,7 @@
         )
     )
 
-    (func $thread_id_result_addr (param $k i64)
+    (func $thread_id_result_addr (param $k i64) (result i32)
         (i32.shl (i32.wrap_i64 (local.get $k)) (i32.const 3))
     )
 
@@ -166,6 +172,7 @@
                 (return (i32.const 24))
             )
         )
+        (i32.const 0)
     )
 
   
