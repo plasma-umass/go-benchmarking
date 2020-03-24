@@ -6,7 +6,7 @@
     (import "asyncify" "stop_unwind" (func $asyncify_stop_unwind))
     (import "asyncify" "start_rewind" (func $asyncify_start_rewind (param i32)))
     (import "asyncify" "stop_rewind" (func $asyncify_stop_rewind))
-    (memory 1 1)
+    (memory 10000)
 
     (global $sleeping (mut i32) (i32.const 0))
 
@@ -21,7 +21,7 @@
     (global $active_thread (mut i64) (i64.const 0)) ;; 1 or 2
 
     (global $numTerms i64 (i64.const 100000000)) ;; 100000000
-    (global $numThreads i64 (i64.const 2)) ;; 100000
+    (global $numThreads i64 (i64.const 100000)) ;; 100000
     (global $termsPerThread (mut i64) (i64.const 0)) ;; will be computed later
 
 

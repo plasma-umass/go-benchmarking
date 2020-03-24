@@ -8,7 +8,7 @@
  (type $none_=>_i64 (func (result i64)))
  (type $none_=>_f64 (func (result f64)))
  (type $f64_=>_f64 (func (param f64) (result f64)))
- (memory $0 1 1)
+ (memory $0 10000)
  (global $sleeping (mut i32) (i32.const 0))
  (global $active_thread (mut i64) (i64.const 0))
  (global $termsPerThread (mut i64) (i64.const 0))
@@ -38,7 +38,7 @@
    (i32.const 0)
   )
   (global.set $queue_base_addr
-   (i32.const 16)
+   (i32.const 800000)
   )
   (global.set $queue_capacity_log2
    (local.get $0)
@@ -52,7 +52,7 @@
      )
      (i32.const 3)
     )
-    (i32.const 16)
+    (i32.const 800000)
    )
   )
  )
@@ -434,10 +434,10 @@
   (local $1 f64)
   (local $2 i32)
   (global.set $termsPerThread
-   (i64.const 50000000)
+   (i64.const 1000)
   )
   (call $queue_init
-   (i32.const 1)
+   (i32.const 17)
   )
   (loop $loop-in
    (i32.store
@@ -482,7 +482,7 @@
        (i64.const 1)
       )
      )
-     (i64.const 2)
+     (i64.const 100000)
     )
    )
   )
@@ -509,7 +509,7 @@
        (i64.const 1)
       )
      )
-     (i64.const 2)
+     (i64.const 100000)
     )
    )
   )
@@ -565,7 +565,7 @@
        (i64.const 1)
       )
      )
-     (i64.const 2)
+     (i64.const 100000)
     )
    )
   )
