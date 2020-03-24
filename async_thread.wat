@@ -143,7 +143,7 @@
                 (i32.wrap_i64 (local.get $k)) 
                 (i32.const 10)
             )
-        ) (i32.const 8)
+        ) (i32.const 8))
     )
 
     (func $thread_id_stack_addr_end (param $k i64) (result i32)
@@ -177,15 +177,16 @@
     )
 
     (func $active_thread_addr (result i32)
-        (if (i64.eq (global.get $active_thread) (i64.const 0))
-            (then
-                (return (i32.const 16))
-            )
-            (else
-                (return (i32.const 24))
-            )
-        )
-        (i32.const 0)
+        (call $thread_id_stack_info_addr (global.get $active_thread))
+        ;; (if (i64.eq (global.get $active_thread) (i64.const 0))
+        ;;     (then
+        ;;         (return (i32.const 16))
+        ;;     )
+        ;;     (else
+        ;;         (return (i32.const 24))
+        ;;     )
+        ;; )
+        ;; (i32.const 0)
     )
 
   
@@ -323,20 +324,40 @@
     )
 
 
-    (func $runtime
+    (func $runtime (local $tid i64) (local $tmp_addr i32)
         ;; Call main the first time, let the stack unwind.
         ;; (loop
 
         (global.set $termsPerThread (i64.div_s (global.get $numTerms) (global.get $numThreads)))
 
+        (call $queue_init 
+            (i32.wrap_i64 (i64.mul (i64.const 8) (global.get $numThreads)))
+            (call $containing_log_2_i32 (i32.wrap_i64 (global.get $numThreads)))
+        )
+
+        (local.set $tid (i64.const 0))
+        (block
+            (loop
+                (local.set $tmp_addr (call $thread_id_stack_info_addr (local.get $tid)))
+                (i32.store (local.get $tmp_addr) (call $thread_id_stack_addr_start (local.get $tid)))
+                (i32.store offset=4 (local.get $tmp_addr) (call $thread_id_stack_addr_end (local.get $tid)))
+
+                (local.set $tid (i64.add (i64.const 1) (local.get $tid)))
+                (br_if 1 (i64.ge_s (local.get $tid) (global.get $numThreads)))
+                (br 0)
+            )
+        )
+
+
+
         (global.set $active_thread (i64.const 0))
 
 
-        (i32.store (i32.const 16) (i32.const 32))
-        (i32.store (i32.const 20) (i32.const 1024))
+        ;; (i32.store (i32.const 16) (i32.const 32))
+        ;; (i32.store (i32.const 20) (i32.const 1024))
 
-        (i32.store (i32.const 24) (i32.const 1032))
-        (i32.store (i32.const 28) (i32.const 2032))
+        ;; (i32.store (i32.const 24) (i32.const 1032))
+        ;; (i32.store (i32.const 28) (i32.const 2032))
 
         ;; (global.set $active_thread (i32.const 1))
 
