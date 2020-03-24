@@ -274,7 +274,10 @@
         )
         (call $print (i32.const -42))
 
-        ;; (f64.store (i32.wrap_i64 (local.get $thread_addr)) (local.get $f))
+
+        (f64.store 
+            (call $thread_id_result_addr (local.get $tid)) 
+            (local.get $f))
 
         ;; call $kthread_exit
     )
@@ -313,15 +316,14 @@
 
 
     (func $scheduler
-        (call $enqueue (global.get $active_thread))
+        (if (global.get $sleeping)
+            (call $enqueue (global.get $active_thread))
+        )
         (global.set $active_thread (call $dequeue))
     )
 
 
-    (func $runtime (local $tid i64) (local $tmp_addr i32)
-        ;; Call main the first time, let the stack unwind.
-        ;; (loop
-
+    (func $runtime (local $tid i64) (local $tmp_addr i32) (local $sum f64)
         (global.set $termsPerThread (i64.div_s (global.get $numTerms) (global.get $numThreads)))
 
         ;; Initialize thread queue
@@ -362,86 +364,50 @@
         )
 
 
-
-        ;; (i32.store (i32.const 16) (i32.const 32))
-        ;; (i32.store (i32.const 20) (i32.const 1024))
-
-        ;; (i32.store (i32.const 24) (i32.const 1032))
-        ;; (i32.store (i32.const 28) (i32.const 2032))
-
-        ;; (global.set $active_thread (i32.const 1))
-
-        ;; (call $main) ;; this is first
-        ;; (call $asyncify_stop_unwind)
-        ;; ;; (call $print (i32.const 1337))
-        ;; ;; (call $print (i32.const 40))
-
-        ;; (call $scheduler)
-        ;; ;; (call $print (global.get $active_thread))
-        ;; (global.set $sleeping (i32.const 0))
-        ;; (call $main)
-        ;; (call $asyncify_stop_unwind)
-        ;; ;; (call $print (i32.const 41))
-        ;; (call $scheduler)
-
-        (loop
-            ;; (call $print (i32.const 1234))
-            (call $asyncify_start_rewind (call $active_thread_addr))
-            (call $main) ;; this is first
-            (if (global.get $sleeping)
-                (then
-                    (call $asyncify_stop_unwind)
+        ;; Loop until no threads in the waiting queue
+        (block
+            (loop
+                ;; (call $print (i32.const 1234))
+                (call $asyncify_start_rewind (call $active_thread_addr))
+                (call $main) ;; this is first
+                (if (global.get $sleeping)
+                    (then
+                        (call $asyncify_stop_unwind)
+                    )
+                    (else
+                        (call $print (i32.const 23))
+                        ;; (global.set $sleeping (i32.const 1))
+                    )
                 )
-                (else
-                    (call $print (i32.const 23))
-                    (global.set $sleeping (i32.const 1))
-                )
+                (call $print (i32.const 20))
+                (br_if 1 (i32.eqz (global.get $queue_len)))
+                (call $scheduler)
+                (global.set $sleeping (i32.const 1))
+
+                (br 0)
             )
-            (call $print (i32.const 20))
-            (call $scheduler)
-            (br 0)
         )
 
 
+        ;; Add up all the results
+        (local.set $tid (i64.const 0))
+        (local.set $sum (f64.const 0))
+        (block
+            (loop
+                (local.set $sum 
+                    (f64.add
+                        (local.get $sum)
+                        (f64.load (call $thread_id_result_addr (local.get $tid)))))
 
-            ;; (call $main)
-            ;; (br 0)
-        ;; )
+                (local.set $tid (i64.add (i64.const 1) (local.get $tid)))
+                (br_if 1 (i64.ge_s (local.get $tid) (global.get $numThreads)))
+                (br 0)
+            )
+        )
 
-        ;; (call $asyncify_stop_unwind)
-        ;; (call $print (i32.const 40))
-        ;; (call $asyncify_start_rewind (i32.const 16))
-        ;; (call $main)
 
-        ;; ;; Call main the first time, let the stack unwind.
-        ;; ;; (call $main)
-        ;; (loop
-        ;;     (call $main)
-        ;;     (call $asyncify_stop_unwind)
+        (call $print_f64 (local.get $sum))
 
-        ;;     (call $print (i32.const 1234))
 
-        ;;     (if (i32.eq (global.get $active_thread) (i32.const 1))
-        ;;         (then
-        ;;             (global.set $active_thread (i32.const 2))
-        ;;         )
-        ;;         (else
-        ;;             (global.set $active_thread (i32.const 1))
-        ;;         )
-        ;;     )
-
-        ;;     (call $asyncify_start_rewind (i32.const 16))
-
-        ;;     (br 0)
-        ;; )
-
-        ;; (call $print (i32.const 1234))
-
-        ;; (call $asyncify_start_rewind (i32.const 16))
-        ;; (call $main)
-        
-
-        ;; ;; (global.get $x)
-        ;; ;; (call $print (global.get $x))
     )
 )
