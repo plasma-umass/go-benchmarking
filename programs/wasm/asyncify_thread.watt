@@ -20,8 +20,8 @@
 
     (global $active_thread (mut i64) (i64.const 0)) ;; 1 or 2
 
-    (global $numTerms i64 (i64.const 100000000)) ;; 100000000
-    (global $numThreads i64 (i64.const 100000)) ;; 100000
+    (global $numTerms i64 (i64.const 128)) ;; 134217728
+    (global $numThreads i64 (i64.const 16))
     (global $termsPerThread (mut i64) (i64.const 0)) ;; will be computed later
 
 
@@ -248,7 +248,15 @@
 
                 ;; (call $print (i32.wrap_i64 (local.get $tid)))
                 ;; (call $print_f64 (local.get $f))
-                (call $sleep (local.get $tid))
+                
+                ;; x % (2^n) = x & (2^n - 1)
+                ;; n = 0, 1, 0
+                ;; n = 1, 2, 1
+                ;; n = 2, 4, 3
+                ;; n = 3, 8, 7
+                (if (i64.eqz (i64.and (local.get $k) (i64.const $TERMS_PER_YIELD)))
+                    (call $sleep (local.get $tid))
+                )
 
                 (local.set $k (i64.add (local.get $k) (i64.const 1)))
                 (br_if 1 (i64.gt_s (local.get $k) (local.get $to)))

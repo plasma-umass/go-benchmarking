@@ -15,8 +15,8 @@
         )
     )
 
-    (global $numTerms i64 (i64.const 100000000)) ;; 100000000
-    (global $numThreads i64 (i64.const 100000)) ;; 100000
+    (global $numTerms i64 (i64.const 64)) ;; 134217728
+    (global $numThreads i64 (i64.const 16))
 
     (global $_after_kapture (mut i64) (i64.const 0)) ;; continuation_id
     (global $_to_capture (mut i32) (i32.const 0)) ;; kthread_func_t
@@ -253,7 +253,9 @@
                 ;; (call $print_ascii (i32.wrap_i64 (local.get $thread_addr)))
     
                 ;; (call $print_d32 (local.get $i))
-                call $kthread_yield
+                (if (i64.eqz (i64.and (local.get $k) (i64.const $TERMS_PER_YIELD)))
+                    call $kthread_yield
+                )
 
                 (local.set $k (i64.add (local.get $k) (i64.const 1)))
                 (br_if 1 (i64.gt_s (local.get $k) (local.get $to)))
