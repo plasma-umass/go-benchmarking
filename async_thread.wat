@@ -178,23 +178,13 @@
 
     (func $active_thread_addr (result i32)
         (call $thread_id_stack_info_addr (global.get $active_thread))
-        ;; (if (i64.eq (global.get $active_thread) (i64.const 0))
-        ;;     (then
-        ;;         (return (i32.const 16))
-        ;;     )
-        ;;     (else
-        ;;         (return (i32.const 24))
-        ;;     )
-        ;; )
-        ;; (i32.const 0)
     )
 
   
     (func $main
-        ;; (call $print (global.get $active_thread))
-        ;; (call $print_evens)
         (call $terms)
     )
+
     (func $sleep (param $tid i64)
         (if (i32.eqz (global.get $sleeping))
             (block
@@ -234,7 +224,6 @@
                 (f64.const 1)))
     )
 
-
     (func $terms (local $from i64) (local $to i64) (local $f f64) (local $k i64) (local $tid i64)
         (local.set $tid (global.get $active_thread))
 
@@ -254,15 +243,8 @@
 
         (block
             (loop
-                ;; (call $print_ascii (i32.wrap_i64 (local.get $char)))
-
                 (local.set $f (f64.add (local.get $f) (call $term (f64.convert_i64_s (local.get $k)))))
-                ;; (call $term (f64.convert_i64_s (local.get $k)))
-                ;; (local.set $f (f64.add (local.get $f) (f64.const 4)))
 
-                ;; (call $print_ascii (i32.wrap_i64 (local.get $thread_addr)))
-    
-                ;; (call $print_d32 (local.get $i))
                 (call $print (i32.wrap_i64 (local.get $tid)))
                 (call $print_f64 (local.get $f))
                 (call $sleep (local.get $tid))
@@ -272,47 +254,24 @@
                 (br 0)
             )
         )
-        (call $print (i32.const -42))
 
 
         (f64.store 
             (call $thread_id_result_addr (local.get $tid)) 
             (local.get $f))
 
-        ;; call $kthread_exit
     )
 
     (func $print_evens (local i32)
         (local.set 0 (i32.wrap_i64 (global.get $active_thread)))
 
         (loop
-
-            ;; (call $print (i32.add (local.get 0) (global.get $active_thread)))
-            ;; (call $print (global.get $active_thread))
-            (call $print (i32.wrap_i64 (global.get $active_thread)))
-            (call $print (local.get 0))
             (call $sleep (i64.const 0))
 
             (local.set 0 (i32.add (i32.const 2) (local.get 0)))
             (br 0)
         )
     )
-
-    ;; (func $print_odds (local i32)  
-    ;;     (local.set 0 (i32.const 1))
-    ;;     (loop
-
-    ;;         ;; (call $print (i32.add (local.get 0) (global.get $active_thread)))
-    ;;         ;; (call $print (global.get $active_thread))
-    ;;         (call $print (global.get $active_thread))
-    ;;         (call $print (local.get 0))
-    ;;         (call $sleep)
-
-    ;;         (local.set 0 (i32.add (i32.const 2) (local.get 0)))
-    ;;         (br 0)
-    ;;     )
-    ;; )
-
 
 
     (func $scheduler
@@ -367,19 +326,12 @@
         ;; Loop until no threads in the waiting queue
         (block
             (loop
-                ;; (call $print (i32.const 1234))
                 (call $asyncify_start_rewind (call $active_thread_addr))
                 (call $main) ;; this is first
                 (if (global.get $sleeping)
-                    (then
-                        (call $asyncify_stop_unwind)
-                    )
-                    (else
-                        (call $print (i32.const 23))
-                        ;; (global.set $sleeping (i32.const 1))
-                    )
+                    (call $asyncify_stop_unwind)
                 )
-                (call $print (i32.const 20))
+
                 (br_if 1 (i32.eqz (global.get $queue_len)))
                 (call $scheduler)
                 (global.set $sleeping (i32.const 1))
@@ -407,7 +359,5 @@
 
 
         (call $print_f64 (local.get $sum))
-
-
     )
 )
