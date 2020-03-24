@@ -41,7 +41,8 @@
 
         (if (result i32) (i32.gt_u (local.get $param) (i32.shl (i32.const 1) (i32.const 31)))
             (then
-                unreachable
+                (unreachable)
+                (i32.const 0)
             )
             (else
                 (local.set $p (i32.sub (i32.const 32) (i32.clz (local.get $param))))
@@ -109,11 +110,11 @@
         
     )
 
-    (func $dequeue (result i64)
+    (func $dequeue (result i64) (local i64)
         (if (result i64) (global.get $queue_len) 
             (then
                 ;; load from address base + 8*tail_idx
-                (i64.load (call $queue_addr (global.get $queue_tail_idx)))
+                (local.set 0 (i64.load (call $queue_addr (global.get $queue_tail_idx))))
 
                 ;; queue_tail_idx = (queue_tail_idx + 1) mod 2^queue_capacity_log2 
                 (global.set $queue_tail_idx 
@@ -125,9 +126,12 @@
                 
                 ;; decrement queue length
                 (global.set $queue_len (i32.sub (global.get $queue_len) (i32.const 1)))
+
+                (local.get 0)
             )
             (else
-                unreachable ;; actuall it is reachable: but don't do it
+                (unreachable) ;; actuall it is reachable: but don't do it
+                (i64.const 0)
             )
         )
     )
@@ -161,7 +165,6 @@
     (func $thread_id_result_addr (param $k i64) (result i32)
         (i32.shl (i32.wrap_i64 (local.get $k)) (i32.const 3))
     )
-
 
     (func $active_thread_addr (result i32)
         (if (i64.eq (global.get $active_thread) (i64.const 0))
