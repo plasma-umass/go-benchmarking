@@ -342,7 +342,7 @@
         (i64.eqz
          (i64.and
           (local.get $1)
-          (i64.const 3)
+          (i64.const 15)
          )
         )
        )
@@ -465,7 +465,7 @@
   (local $1 f64)
   (local $2 i32)
   (global.set $termsPerThread
-   (i64.const 8)
+   (i64.const 16777216)
   )
   (call $queue_init
    (i32.const 4)

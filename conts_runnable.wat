@@ -253,7 +253,7 @@
                 ;; (call $print_ascii (i32.wrap_i64 (local.get $thread_addr)))
     
                 ;; (call $print_d32 (local.get $i))
-                (if (i64.eqz (i64.and (local.get $k) (i64.const $TERMS_PER_YIELD)))
+                (if (i64.eqz (i64.and (local.get $k) (i64.const 15)))
                     (call $kthread_yield)
                 )
 

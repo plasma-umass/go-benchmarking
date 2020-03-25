@@ -254,7 +254,7 @@
                 ;; n = 1, 2, 1
                 ;; n = 2, 4, 3
                 ;; n = 3, 8, 7
-                (if (i64.eqz (i64.and (local.get $k) (i64.const $TERMS_PER_YIELD)))
+                (if (i64.eqz (i64.and (local.get $k) (i64.const 15)))
                     (call $sleep (local.get $tid))
                 )
 
