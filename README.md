@@ -6,6 +6,12 @@
 - Make sure emscripten is installed
 - Add the following line to `~/.bashrc`: `alias emsdk_setup="source /path/to/emsdk_env.sh"`
 
+## Running Asyncify Experiment:
+
+```bash
+Scripts/asyncify/experiment.R; Scripts/asyncify/plot.R; open Results/asyncify/plot.pdf
+```
+
 ## Running Experiments
 
 Running an experiment is a 3 step process:
