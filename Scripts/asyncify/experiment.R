@@ -1,7 +1,7 @@
 #!/usr/local/bin/Rscript
 
-max_n <- 4    # 22
-samples <- 2  # 10
+max_n <- 22    # 22
+samples <- 10  # 10
 
 
 sys_dt <- function(cmd) {

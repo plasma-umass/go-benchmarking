@@ -7,3 +7,7 @@ programs/toy/wasm_heap_stack
 
 .ipynb_checkpoints/
 .Rhistory
+
+asyncify_runnable.wat
+asyncify_sub.wat
+conts_runnable.wat
