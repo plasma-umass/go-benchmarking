@@ -202,27 +202,28 @@
     )
 
 
-    (func $term (param f64) (result f64) (local i64)
-        (f64.div
+    (func $term (param $k f64) (result f64) (local $tmp i64) (local $res f64)
+        (local.set $res (f64.div
             (f64.convert_i64_s
                 (i64.shl
-                    (local.tee 1
-                        (i64.add
-                            (i64.shl
-                                (i64.sub
-                                    (i64.const 0)
-                                    (i64.and
-                                        (i64.trunc_f64_s
-                                            (local.get 0))
-                                        (i64.const 1)))
-                                (i64.const 1))
-                            (i64.const 1)))
+                    (i64.add
+                        (i64.shl
+                            (i64.sub
+                                (i64.const 0)
+                                (i64.and
+                                    (i64.trunc_f64_s
+                                        (local.get 0))
+                                    (i64.const 1)))
+                            (i64.const 1))
+                        (i64.const 1))
                     (i64.const 2)))
             (f64.add
                 (f64.add
-                    (local.get 0)
-                    (local.get 0))
-                (f64.const 1)))
+                    (local.get $k)
+                    (local.get $k))
+                (f64.const 1))))
+        
+        (local.get $res)
     )
 
     (func $terms (local $from i64) (local $to i64) (local $f f64) (local $k i64) (local $tid i64)
@@ -254,9 +255,9 @@
                 ;; n = 1, 2, 1
                 ;; n = 2, 4, 3
                 ;; n = 3, 8, 7
-                (if (i64.eqz (i64.and (local.get $k) (i64.const 0)))
+                ;; (if (i64.eqz (i64.and (local.get $k) (i64.const 0)))
                     (call $sleep (local.get $tid))
-                )
+                ;; )
 
                 (local.set $k (i64.add (local.get $k) (i64.const 1)))
                 (br_if 1 (i64.gt_s (local.get $k) (local.get $to)))
