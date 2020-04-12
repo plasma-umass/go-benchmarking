@@ -15,7 +15,7 @@
         )
     )
 
-    (global $numTerms i64 (i64.const 1024)) ;; 268435456
+    (global $numTerms i64 (i64.const 268435456)) ;; 268435456
     (global $numThreads i64 (i64.const 16)) ;; 16
 
     (global $_after_kapture (mut i64) (i64.const 0)) ;; continuation_id

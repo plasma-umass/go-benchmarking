@@ -1,7 +1,7 @@
 ;; input.wat
 (module
-    (import "spectest" "print" (func $print (param i32)))
-    (import "spectest" "print_f64" (func $print_f64 (param f64)))
+    ;; (import "spectest" "print" (func $print (param i32)))
+    ;; (import "spectest" "print_f64" (func $print_f64 (param f64)))
     (import "asyncify" "start_unwind" (func $asyncify_start_unwind (param i32)))
     (import "asyncify" "stop_unwind" (func $asyncify_stop_unwind))
     (import "asyncify" "start_rewind" (func $asyncify_start_rewind (param i32)))
@@ -223,7 +223,7 @@
                     (local.get $k))
                 (f64.const 1))))
 
-        (if (i64.eqz (i64.and (local.get $ki) (i64.const 7)))
+        (if (i64.eqz (i64.and (local.get $ki) (i64.const 0)))
             (call $sleep (local.get $tid))
         )
         
@@ -251,7 +251,7 @@
             (loop
                 (local.set $f (f64.add (local.get $f) (call $term (f64.convert_i64_s (local.get $k)) (local.get $tid) (local.get $k))))
 
-                (call $print (i32.wrap_i64 (local.get $tid)))
+                ;; (call $print (i32.wrap_i64 (local.get $tid)))
                 ;; (call $print_f64 (local.get $f))
                 
                 ;; x % (2^n) = x & (2^n - 1)
@@ -259,7 +259,7 @@
                 ;; n = 1, 2, 1
                 ;; n = 2, 4, 3
                 ;; n = 3, 8, 7
-                ;; (if (i64.eqz (i64.and (local.get $k) (i64.const 7)))
+                ;; (if (i64.eqz (i64.and (local.get $k) (i64.const 0)))
                     ;; (call $sleep (local.get $tid))
                 ;; )
 
