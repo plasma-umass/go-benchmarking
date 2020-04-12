@@ -10,4 +10,6 @@ programs/toy/wasm_heap_stack
 
 asyncify_runnable.wat
 asyncify_sub.wat
+asyncify2_runnable.wat
+asyncify2_sub.wat
 conts_runnable.wat
