@@ -20,8 +20,8 @@
 
     (global $active_thread (mut i64) (i64.const 0)) ;; 1 or 2
 
-    (global $numTerms i64 (i64.const 8)) ;; 268435456
-    (global $numThreads i64 (i64.const 2)) ;; 16
+    (global $numTerms i64 (i64.const 1024)) ;; 268435456
+    (global $numThreads i64 (i64.const 16)) ;; 16
     (global $termsPerThread (mut i64) (i64.const 0)) ;; will be computed later
 
 
@@ -202,7 +202,7 @@
     )
 
 
-    (func $term (param $k f64) (result f64) (local $tmp i64) (local $res f64)
+    (func $term (param $k f64) (param $tid i64) (param $ki i64) (result f64) (local $tmp i64) (local $res f64)
         (local.set $res (f64.div
             (f64.convert_i64_s
                 (i64.shl
@@ -212,7 +212,7 @@
                                 (i64.const 0)
                                 (i64.and
                                     (i64.trunc_f64_s
-                                        (local.get 0))
+                                        (local.get $k))
                                     (i64.const 1)))
                             (i64.const 1))
                         (i64.const 1))
@@ -222,6 +222,10 @@
                     (local.get $k)
                     (local.get $k))
                 (f64.const 1))))
+
+        (if (i64.eqz (i64.and (local.get $ki) (i64.const 7)))
+            (call $sleep (local.get $tid))
+        )
         
         (local.get $res)
     )
@@ -245,7 +249,7 @@
 
         (block
             (loop
-                (local.set $f (f64.add (local.get $f) (call $term (f64.convert_i64_s (local.get $k)))))
+                (local.set $f (f64.add (local.get $f) (call $term (f64.convert_i64_s (local.get $k)) (local.get $tid) (local.get $k))))
 
                 (call $print (i32.wrap_i64 (local.get $tid)))
                 ;; (call $print_f64 (local.get $f))
@@ -255,8 +259,8 @@
                 ;; n = 1, 2, 1
                 ;; n = 2, 4, 3
                 ;; n = 3, 8, 7
-                ;; (if (i64.eqz (i64.and (local.get $k) (i64.const 0)))
-                    (call $sleep (local.get $tid))
+                ;; (if (i64.eqz (i64.and (local.get $k) (i64.const 7)))
+                    ;; (call $sleep (local.get $tid))
                 ;; )
 
                 (local.set $k (i64.add (local.get $k) (i64.const 1)))
@@ -367,6 +371,7 @@
             )
         )
 
+        ;; (call $print_f64 (local.get $sum))
         (local.get $sum)
     )
 

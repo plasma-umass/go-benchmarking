@@ -15,8 +15,8 @@
         )
     )
 
-    (global $numTerms i64 (i64.const 268435456)) ;; 268435456
-    (global $numThreads i64 (i64.const 16))
+    (global $numTerms i64 (i64.const 1024)) ;; 268435456
+    (global $numThreads i64 (i64.const 16)) ;; 16
 
     (global $_after_kapture (mut i64) (i64.const 0)) ;; continuation_id
     (global $_to_capture (mut i32) (i32.const 0)) ;; kthread_func_t
@@ -215,9 +215,9 @@
     )
 
 
-    (func $term (param f64) (result f64) (local i64)
+    (func $term (param $k f64) (param $ki i64) (result f64) (local $res f64)
 		i64.const 0
-		local.get 0
+		local.get $k
 		i64.trunc_f64_s
 		i64.const 1
 		i64.and
@@ -229,12 +229,19 @@
 		i64.const 2
 		i64.shl
 		f64.convert_i64_s
-		local.get 0
-		local.get 0
+		local.get $k
+		local.get $k
 		f64.add
 		f64.const 1
 		f64.add
 		f64.div
+        local.set $res
+
+        (if (i64.eqz (i64.and (local.get $ki) (i64.const $TERMS_PER_YIELD)))
+            (call $kthread_yield)
+        )
+
+        local.get $res
 	)
 
     (func $terms (param $thread_addr i64) (param $from i64) (param $to i64) (local $f f64) (local $k i64)
@@ -245,16 +252,16 @@
             (loop
                 ;; (call $print_ascii (i32.wrap_i64 (local.get $char)))
 
-                (local.set $f (f64.add (local.get $f) (call $term (f64.convert_i64_s (local.get $k)))))
+                (local.set $f (f64.add (local.get $f) (call $term (f64.convert_i64_s (local.get $k)) (local.get $k))))
                 ;; (call $term (f64.convert_i64_s (local.get $k)))
                 ;; (local.set $f (f64.add (local.get $f) (f64.const 4)))
 
                 ;; (call $print_ascii (i32.wrap_i64 (local.get $thread_addr)))
     
                 ;; (call $print_d32 (local.get $i))
-                (if (i64.eqz (i64.and (local.get $k) (i64.const $TERMS_PER_YIELD)))
-                    (call $kthread_yield)
-                )
+                ;; (if (i64.eqz (i64.and (local.get $k) (i64.const $TERMS_PER_YIELD)))
+                ;;     (call $kthread_yield)
+                ;; )
 
                 (local.set $k (i64.add (local.get $k) (i64.const 1)))
                 (br_if 1 (i64.gt_s (local.get $k) (local.get $to)))
@@ -365,6 +372,6 @@
 
 
     (func $testing (export "testing") (result f64)
-        (call $term (f64.const 0))
+        (call $term (f64.const 0) (i64.const 0))
     )
 )

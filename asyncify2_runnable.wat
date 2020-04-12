@@ -7,7 +7,7 @@
  (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $none_=>_i64 (func (result i64)))
  (type $none_=>_f64 (func (result f64)))
- (type $f64_=>_f64 (func (param f64) (result f64)))
+ (type $f64_i64_=>_f64 (func (param f64 i64) (result f64)))
  (import "spectest" "print" (func $print (param i32)))
  (memory $0 10000)
  (global $sleeping (mut i32) (i32.const 0))
@@ -39,7 +39,7 @@
    (i32.const 0)
   )
   (global.set $queue_base_addr
-   (i32.const 16)
+   (i32.const 128)
   )
   (global.set $queue_capacity_log2
    (local.get $0)
@@ -53,7 +53,7 @@
      )
      (i32.const 3)
     )
-    (i32.const 16)
+    (i32.const 128)
    )
   )
  )
@@ -184,45 +184,9 @@
    )
   )
  )
- (func $term (; 8 ;) (param $0 f64) (result f64)
-  (f64.div
-   (f64.convert_i64_s
-    (i64.shl
-     (i64.add
-      (i64.shl
-       (i64.sub
-        (i64.const 0)
-        (i64.and
-         (i64.trunc_f64_s
-          (local.get $0)
-         )
-         (i64.const 1)
-        )
-       )
-       (i64.const 1)
-      )
-      (i64.const 1)
-     )
-     (i64.const 2)
-    )
-   )
-   (f64.add
-    (f64.add
-     (local.get $0)
-     (local.get $0)
-    )
-    (f64.const 1)
-   )
-  )
- )
- (func $terms (; 9 ;)
-  (local $0 i32)
-  (local $1 i64)
+ (func $term (; 8 ;) (param $0 f64) (param $1 i64) (result f64)
   (local $2 i32)
-  (local $3 i64)
-  (local $4 f64)
-  (local $5 i64)
-  (local $6 i32)
+  (local $3 i32)
   (if
    (i32.eq
     (global.get $__asyncify_state)
@@ -235,10 +199,211 @@
       (i32.load
        (global.get $__asyncify_data)
       )
-      (i32.const -36)
+      (i32.const -20)
+     )
+    )
+    (local.set $0
+     (f64.load align=4
+      (local.tee $2
+       (i32.load
+        (global.get $__asyncify_data)
+       )
+      )
      )
     )
     (local.set $1
+     (i64.load offset=8 align=4
+      (local.get $2)
+     )
+    )
+    (local.set $2
+     (i32.load offset=16
+      (local.get $2)
+     )
+    )
+   )
+  )
+  (local.set $3
+   (block $__asyncify_unwind (result i32)
+    (if
+     (i32.eq
+      (global.get $__asyncify_state)
+      (i32.const 2)
+     )
+     (block
+      (i32.store
+       (global.get $__asyncify_data)
+       (i32.add
+        (i32.load
+         (global.get $__asyncify_data)
+        )
+        (i32.const -4)
+       )
+      )
+      (local.set $3
+       (i32.load
+        (i32.load
+         (global.get $__asyncify_data)
+        )
+       )
+      )
+     )
+    )
+    (if
+     (i32.eqz
+      (global.get $__asyncify_state)
+     )
+     (block
+      (local.set $2
+       (i64.eqz
+        (i64.and
+         (local.get $1)
+         (i64.const 7)
+        )
+       )
+      )
+      (local.set $0
+       (f64.div
+        (f64.convert_i64_s
+         (i64.shl
+          (i64.add
+           (i64.shl
+            (i64.sub
+             (i64.const 0)
+             (i64.and
+              (i64.trunc_f64_s
+               (local.get $0)
+              )
+              (i64.const 1)
+             )
+            )
+            (i64.const 1)
+           )
+           (i64.const 1)
+          )
+          (i64.const 2)
+         )
+        )
+        (f64.add
+         (f64.add
+          (local.get $0)
+          (local.get $0)
+         )
+         (f64.const 1)
+        )
+       )
+      )
+     )
+    )
+    (if
+     (i32.or
+      (local.get $2)
+      (i32.eq
+       (global.get $__asyncify_state)
+       (i32.const 2)
+      )
+     )
+     (if
+      (select
+       (i32.eqz
+        (local.get $3)
+       )
+       (i32.const 1)
+       (global.get $__asyncify_state)
+      )
+      (block
+       (call $sleep)
+       (drop
+        (br_if $__asyncify_unwind
+         (i32.const 0)
+         (i32.eq
+          (global.get $__asyncify_state)
+          (i32.const 1)
+         )
+        )
+       )
+      )
+     )
+    )
+    (if
+     (i32.eqz
+      (global.get $__asyncify_state)
+     )
+     (return
+      (local.get $0)
+     )
+    )
+    (unreachable)
+   )
+  )
+  (i32.store
+   (i32.load
+    (global.get $__asyncify_data)
+   )
+   (local.get $3)
+  )
+  (i32.store
+   (global.get $__asyncify_data)
+   (i32.add
+    (i32.load
+     (global.get $__asyncify_data)
+    )
+    (i32.const 4)
+   )
+  )
+  (f64.store align=4
+   (local.tee $3
+    (i32.load
+     (global.get $__asyncify_data)
+    )
+   )
+   (local.get $0)
+  )
+  (i64.store offset=8 align=4
+   (local.get $3)
+   (local.get $1)
+  )
+  (i32.store offset=16
+   (local.get $3)
+   (local.get $2)
+  )
+  (i32.store
+   (global.get $__asyncify_data)
+   (i32.add
+    (i32.load
+     (global.get $__asyncify_data)
+    )
+    (i32.const 20)
+   )
+  )
+  (f64.const 0)
+ )
+ (func $terms (; 9 ;)
+  (local $0 i32)
+  (local $1 f64)
+  (local $2 i64)
+  (local $3 i32)
+  (local $4 i64)
+  (local $5 f64)
+  (local $6 i64)
+  (local $7 i32)
+  (local $8 f64)
+  (if
+   (i32.eq
+    (global.get $__asyncify_state)
+    (i32.const 2)
+   )
+   (block
+    (i32.store
+     (global.get $__asyncify_data)
+     (i32.add
+      (i32.load
+       (global.get $__asyncify_data)
+      )
+      (i32.const -44)
+     )
+    )
+    (local.set $2
      (i64.load align=4
       (local.tee $0
        (i32.load
@@ -248,22 +413,27 @@
      )
     )
     (local.set $3
-     (i64.load offset=12 align=4
+     (i32.load offset=16
       (local.get $0)
      )
     )
     (local.set $4
-     (f64.load offset=20 align=4
+     (i64.load offset=20 align=4
       (local.get $0)
      )
     )
     (local.set $5
-     (i64.load offset=28 align=4
+     (f64.load offset=28 align=4
       (local.get $0)
      )
     )
-    (local.set $2
-     (i32.load offset=8
+    (local.set $6
+     (i64.load offset=36 align=4
+      (local.get $0)
+     )
+    )
+    (local.set $1
+     (f64.load offset=8 align=4
       (local.get $0)
      )
     )
@@ -286,7 +456,7 @@
         (i32.const -4)
        )
       )
-      (local.set $6
+      (local.set $7
        (i32.load
         (i32.load
          (global.get $__asyncify_data)
@@ -300,10 +470,10 @@
       (global.get $__asyncify_state)
      )
      (block
-      (local.set $3
+      (local.set $4
        (global.get $active_thread)
       )
-      (local.set $5
+      (local.set $6
        (i64.sub
         (i64.add
          (global.get $termsPerThread)
@@ -315,7 +485,7 @@
         (i64.const 1)
        )
       )
-      (local.set $1
+      (local.set $2
        (i64.mul
         (global.get $active_thread)
         (global.get $termsPerThread)
@@ -324,39 +494,29 @@
      )
     )
     (loop $loop-in
-     (if
-      (i32.eqz
+     (local.set $1
+      (select
+       (local.get $1)
+       (f64.convert_i64_s
+        (local.get $2)
+       )
        (global.get $__asyncify_state)
-      )
-      (block
-       (local.set $4
-        (f64.add
-         (local.get $4)
-         (call $term
-          (f64.convert_i64_s
-           (local.get $1)
-          )
-         )
-        )
-       )
-       (local.set $2
-        (i32.wrap_i64
-         (local.get $3)
-        )
-       )
       )
      )
      (if
       (select
        (i32.eqz
-        (local.get $6)
+        (local.get $7)
        )
        (i32.const 1)
        (global.get $__asyncify_state)
       )
       (block
-       (call $print
-        (local.get $2)
+       (local.set $8
+        (call $term
+         (local.get $1)
+         (local.get $2)
+        )
        )
        (drop
         (br_if $__asyncify_unwind
@@ -367,19 +527,42 @@
          )
         )
        )
+       (local.set $1
+        (local.get $8)
+       )
+      )
+     )
+     (if
+      (i32.eqz
+       (global.get $__asyncify_state)
+      )
+      (block
+       (local.set $5
+        (f64.add
+         (local.get $5)
+         (local.get $1)
+        )
+       )
+       (local.set $3
+        (i32.wrap_i64
+         (local.get $4)
+        )
+       )
       )
      )
      (if
       (select
        (i32.eq
-        (local.get $6)
+        (local.get $7)
         (i32.const 1)
        )
        (i32.const 1)
        (global.get $__asyncify_state)
       )
       (block
-       (call $sleep)
+       (call $print
+        (local.get $3)
+       )
        (drop
         (br_if $__asyncify_unwind
          (i32.const 1)
@@ -396,15 +579,15 @@
        (global.get $__asyncify_state)
       )
       (br_if $loop-in
-       (local.tee $2
+       (local.tee $3
         (i64.le_s
-         (local.tee $1
+         (local.tee $2
           (i64.add
-           (local.get $1)
+           (local.get $2)
            (i64.const 1)
           )
          )
-         (local.get $5)
+         (local.get $6)
         )
        )
       )
@@ -416,9 +599,9 @@
      )
      (f64.store
       (call $thread_id_result_addr
-       (local.get $3)
+       (local.get $4)
       )
-      (local.get $4)
+      (local.get $5)
      )
     )
     (return)
@@ -445,23 +628,27 @@
      (global.get $__asyncify_data)
     )
    )
-   (local.get $1)
-  )
-  (i32.store offset=8
-   (local.get $0)
    (local.get $2)
   )
-  (i64.store offset=12 align=4
+  (f64.store offset=8 align=4
+   (local.get $0)
+   (local.get $1)
+  )
+  (i32.store offset=16
    (local.get $0)
    (local.get $3)
   )
-  (f64.store offset=20 align=4
+  (i64.store offset=20 align=4
    (local.get $0)
    (local.get $4)
   )
-  (i64.store offset=28 align=4
+  (f64.store offset=28 align=4
    (local.get $0)
    (local.get $5)
+  )
+  (i64.store offset=36 align=4
+   (local.get $0)
+   (local.get $6)
   )
   (i32.store
    (global.get $__asyncify_data)
@@ -469,7 +656,7 @@
     (i32.load
      (global.get $__asyncify_data)
     )
-    (i32.const 36)
+    (i32.const 44)
    )
   )
  )
@@ -478,10 +665,10 @@
   (local $1 f64)
   (local $2 i32)
   (global.set $termsPerThread
-   (i64.const 4)
+   (i64.const 64)
   )
   (call $queue_init
-   (i32.const 1)
+   (i32.const 4)
   )
   (loop $loop-in
    (i32.store
@@ -526,7 +713,7 @@
        (i64.const 1)
       )
      )
-     (i64.const 2)
+     (i64.const 16)
     )
    )
   )
@@ -553,7 +740,7 @@
        (i64.const 1)
       )
      )
-     (i64.const 2)
+     (i64.const 16)
     )
    )
   )
@@ -609,7 +796,7 @@
        (i64.const 1)
       )
      )
-     (i64.const 2)
+     (i64.const 16)
     )
    )
   )
