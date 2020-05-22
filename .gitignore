@@ -4,6 +4,8 @@ programs/c/native
 programs/c/wasm
 programs/toy/wasm
 programs/toy/wasm_heap_stack
+programs/uthreads/native
+programs/uthreads/wasm
 
 .ipynb_checkpoints/
 .Rhistory
