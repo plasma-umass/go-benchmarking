@@ -15,7 +15,15 @@ sys_dt <- function(cmd) {
 
 tests <- sub('\\.c$', '', list.files("programs/uthreads/src/"))
 impls <- c("SWAPCONTEXT", "CONTS")
-df <- data.frame(test=character(), impl=character(), num_terms_log2=numeric(), terms_per_yield_log2=numeric(), time_mean=numeric(), time_sd=numeric())
+df <- data.frame(
+  "test"=character(), 
+  "impl"=factor(character(), levels=impls), 
+  "num_terms_log2"=numeric(), 
+  "terms_per_yield_log2"=numeric(), 
+  "time_mean"=numeric(), 
+  "time_sd"=numeric(), 
+  stringsAsFactors=FALSE
+)
 
 # Build all tests
 system("Scripts/uthreads/build_all.sh")
@@ -30,7 +38,6 @@ for(test in tests) {
     df[nrow(df)+1,] <- list(test, impl, num_terms_log2, term_per_yield_log2, mean(dts), sd(dts))
   }
 }
-
 
 print(df)
 save(df, file="Results/uthreads/results.rda")
