@@ -14,4 +14,7 @@ elif [ "$impl" = "ASYNCIFY" ]; then
 elif [ "$impl" = "SWAPCONTEXT" ]; then
     extra_args="-DCONTEXT_IMPL=SWAPCONTEXT -D_XOPEN_SOURCE -Wno-deprecated-declarations -O3"
     clang $in_files $extra_args -o $out_f.out
+elif [ "$impl" = "PTHREAD" ]; then
+    extra_args="-DCONTEXT_IMPL=PTHREAD -O3"
+    clang $in_files $extra_args -o $out_f.out
 fi

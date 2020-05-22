@@ -18,7 +18,7 @@ typedef struct {
 } TermsArg;
 
 
-int terms(void *arg_tmp) {
+void *terms(void *arg_tmp) {
     TermsArg *arg = (TermsArg *)arg_tmp;
     char eq = 0;
 
@@ -34,7 +34,7 @@ int terms(void *arg_tmp) {
     }
 
     arg->result = 1;
-    return 0;
+    return NULL;
 }
 
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
         threads[thread].start1 = s1 + thread * charsPerThread;
         threads[thread].start2 = s2 + thread * charsPerThread;
         threads[thread].len = charsPerThread;
-        threads[thread].tid = uthread_create(terms, &threads[thread]);
+        uthread_create(&threads[thread].tid, terms, &threads[thread]);
     }
 
     char eq = 1;

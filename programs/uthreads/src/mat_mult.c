@@ -20,7 +20,7 @@ typedef struct {
 } ThreadArg;
 
 
-int thread(void *arg_tmp) {
+void *thread(void *arg_tmp) {
     ThreadArg *arg = (ThreadArg *)arg_tmp;
     double *x = arg->x;
     double *y = arg->y;
@@ -37,7 +37,7 @@ int thread(void *arg_tmp) {
         }
     }
 
-    return 0;   
+    return NULL;   
 }
 
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    uint64_t NUM_COLS = exp2_int(atoi(argv[1]) / 2 - 2);
+    uint64_t NUM_COLS = exp2_int(atoi(argv[1]) / 2 - 1);
     
 
     ThreadArg threads[NUM_THREADS];
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
         threads[t].num_rows = NUM_ROWS;
         threads[t].num_cols = NUM_COLS;
         threads[t].result = result;
-        threads[t].tid = uthread_create(thread, &threads[t]);
+        uthread_create(&threads[t].tid, thread, &threads[t]);
     }
 
     for (int t=0; t<NUM_THREADS; t=t+1){

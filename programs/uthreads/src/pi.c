@@ -26,7 +26,7 @@ double term(double kf, uint64_t ki) {
     return res;
 }
 
-int terms(void *arg_tmp) {
+void *terms(void *arg_tmp) {
     TermsArg *arg = (TermsArg *)arg_tmp;
     double f = 0;
     uint64_t from = arg->from;
@@ -38,7 +38,7 @@ int terms(void *arg_tmp) {
 
     arg->result = f;
 
-    return 0;
+    return NULL;
 }
 
 
@@ -64,17 +64,17 @@ int main(int argc, char **argv) {
     
 
     TermsArg threads[NUM_THREADS];
-    int termsPerThread = NUM_TERMS / NUM_THREADS;
+    uint64_t termsPerThread = NUM_TERMS / NUM_THREADS;
 
 
-    for(int thread = 0; thread < NUM_THREADS; thread++) {
+    for(uint64_t thread = 0; thread < NUM_THREADS; thread++) {
         threads[thread].from = thread * termsPerThread;
         threads[thread].to = termsPerThread + thread*termsPerThread - 1;
-        threads[thread].tid = uthread_create(terms, &threads[thread]);
+        uthread_create(&threads[thread].tid, terms, &threads[thread]);
     }
 
     double pi = 0;
-    for(int thread = 0; thread < NUM_THREADS; thread++) {
+    for(uint64_t thread = 0; thread < NUM_THREADS; thread++) {
         uthread_join(threads[thread].tid, NULL);
         // printf("Done with tid = %d\n", threads[thread].tid);
         pi += threads[thread].result;

@@ -6,6 +6,7 @@ programs/toy/wasm
 programs/toy/wasm_heap_stack
 programs/uthreads/SWAPCONTEXT
 programs/uthreads/CONTS
+programs/uthreads/PTHREAD
 
 .ipynb_checkpoints/
 .Rhistory
