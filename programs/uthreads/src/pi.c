@@ -5,7 +5,8 @@
 #include <stdlib.h>
 
 #define NUM_THREADS 16
-#define TERMS_PER_YIELD 1
+
+uint64_t TERMS_PER_YIELD_LOG2;
 
 typedef struct {
     uint64_t from;
@@ -18,7 +19,7 @@ double term(double kf, uint64_t ki) {
     int64_t sign = 2 * -((int64_t)ki % 2 ) + 1;
     double res = 4 * sign / (2*kf + 1);;
 
-    if(ki % TERMS_PER_YIELD == 0) {
+    if((ki & TERMS_PER_YIELD_LOG2) == 0) {
         uthread_yield();
     }
 
@@ -53,12 +54,13 @@ uint64_t exp2_int(uint64_t x) {
 int main(int argc, char **argv) {
     uthread_init();
 
-    if(argc != 2) {
-        printf("Expected 1 arg: log2(# terms)\n");
+    if(argc != 3) {
+        printf("Expected 2 args: log2(# terms) log2(# terms/yield)\n");
         return 1;
     }
 
     uint64_t NUM_TERMS = exp2_int(atoi(argv[1]));
+    TERMS_PER_YIELD_LOG2 = atoi(argv[2]);
     
 
     TermsArg threads[NUM_THREADS];
@@ -79,7 +81,4 @@ int main(int argc, char **argv) {
     }
 
     printf("%f\n", pi);
-
-
-    // say_hi();
 }
