@@ -78,3 +78,7 @@ for p in src/*.toy; do
     toyc "src/$f.toy" -o "wasm_heap_stack/O/$f" --heap-stack -O
 done
 popd
+
+# Build uthreads
+cd ../
+Scripts/uthreads/build_all.sh
