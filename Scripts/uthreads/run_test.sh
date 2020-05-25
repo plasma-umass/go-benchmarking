@@ -10,4 +10,6 @@ elif [ "$impl" = "ASYNCIFY" ]; then
     echo "NOT YET IMPLEMENTED"
 elif [ "$impl" = "SWAPCONTEXT" ]; then
     programs/uthreads/SWAPCONTEXT/$f.out $args
+elif [ "$impl" = "PTHREAD" ]; then
+    programs/uthreads/PTHREAD/$f.out $args
 fi
