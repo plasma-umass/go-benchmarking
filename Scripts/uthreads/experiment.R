@@ -14,7 +14,7 @@ sys_dt <- function(cmd) {
 
 
 tests <- sub('\\.c$', '', list.files("programs/uthreads/src/"))
-impls <- c("SWAPCONTEXT", "CONTS")
+impls <- c("SWAPCONTEXT", "PTHREAD", "CONTS")
 df <- data.frame(
   "test"=character(), 
   "impl"=factor(character(), levels=impls), 
