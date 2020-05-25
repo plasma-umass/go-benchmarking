@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 num_terms_log2 <- 22
-term_per_yield_log2 <- 0
+term_per_yield_log2 <- 17
 samples <- 3  # 10
 
 
