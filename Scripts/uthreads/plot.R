@@ -10,6 +10,6 @@ p <- df %>% filter(!(impl %in% c("NATIVE_SWAPCONTEXT"))) %>% ggplot(aes(x=test, 
   geom_errorbar(aes(ymin=time_mean-time_sd, ymax=time_mean+time_sd), 
                 width=.1, position=position_dodge(.9)) +
   labs(y="Time (s)", x="Benchmark") +
-  facet_wrap(~terms_per_yield_log2, ncol=1);
+  facet_wrap(~terms_per_yield_log2, ncol=1, scales="free");
 
 ggsave("Results/uthreads/uthreads.pdf", p)
