@@ -28,7 +28,7 @@ void *terms(void *arg_tmp) {
             return 0;
         }
 
-        if((k & CHARS_PER_YIELD_LOG2) == 0) {
+        if((k % CHARS_PER_YIELD_LOG2) == 0) {
             uthread_yield();
         }
     }

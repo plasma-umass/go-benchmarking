@@ -19,7 +19,7 @@ double term(double kf, uint64_t ki) {
     int64_t sign = 2 * -((int64_t)ki % 2 ) + 1;
     double res = 4 * sign / (2*kf + 1);;
 
-    if((ki & TERMS_PER_YIELD_LOG2) == 0) {
+    if((ki % TERMS_PER_YIELD_LOG2) == 0) {
         uthread_yield();
     }
 
