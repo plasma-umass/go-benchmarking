@@ -13,27 +13,29 @@ typedef struct {
     char *start1;
     char *start2;
     int len;
-    char result; // a bool
+    uint64_t result; // a bool
     uthread_t tid;
 } TermsArg;
 
 
 void *terms(void *arg_tmp) {
     TermsArg *arg = (TermsArg *)arg_tmp;
-    char eq = 0;
 
+    arg->result = 0;
     for(int k = 0; k < arg->len; k++) {
-        if(arg->start1[k] != arg->start2[k]) {
-            arg->result = 0;
-            return 0;
-        }
+        arg->result += ((uint64_t)arg->start1[k] * (uint64_t)arg->start2[k]) % 17;
+        arg->result = arg->result % 8963;
+        // if(arg->start1[k] != arg->start2[k]) {
+        //     arg->result = 0;
+        //     return 0;
+        // }
 
         if((k % CHARS_PER_YIELD_LOG2) == 0) {
             uthread_yield();
         }
     }
 
-    arg->result = 1;
+    // arg->result = 1;
     return NULL;
 }
 
@@ -55,7 +57,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    uint64_t NUM_CHARS = exp2_int(atoi(argv[1]));
+    uint64_t NUM_CHARS = exp2_int(atoi(argv[1])-2);
     CHARS_PER_YIELD_LOG2 = exp2_int(atoi(argv[2]));
     
 
@@ -73,12 +75,13 @@ int main(int argc, char **argv) {
         uthread_create(&threads[thread].tid, terms, &threads[thread]);
     }
 
-    char eq = 1;
+    // char eq = 1;
+    uint64_t dot = 0;
     for(int thread = 0; thread < NUM_THREADS; thread++) {
         uthread_join(threads[thread].tid, NULL);
         // printf("Done with tid = %d\n", threads[thread].tid);
-        eq = eq && threads[thread].result;
+        dot += threads[thread].result;
     }
 
-    printf("%d\n", (int)eq);
+    printf("%d\n", (int)dot);
 }
