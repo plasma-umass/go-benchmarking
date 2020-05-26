@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
     }
 
     uint64_t NUM_CHARS = exp2_int(atoi(argv[1]));
-    CHARS_PER_YIELD_LOG2 = atoi(argv[2]);
+    CHARS_PER_YIELD_LOG2 = exp2_int(atoi(argv[2]));
     
 
     TermsArg threads[NUM_THREADS];
