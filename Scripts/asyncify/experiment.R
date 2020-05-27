@@ -24,8 +24,8 @@ for(n in 0:max_n) {
   
   print(paste("Running with yield every 2^", n, " iterations, ", samples, " samples", sep=""))
   for(s in 1:samples) {
-    conts_dt <- sys_dt('/Users/donaldpinckney/.cargo/bin/wasmtime conts_runnable.wat --invoke the_main')
-    asyncify_dt <- sys_dt('/Users/donaldpinckney/.cargo/bin/wasmtime asyncify2_runnable.wat --invoke runtime')
+    conts_dt <- sys_dt('wasmtime conts_runnable.wat --invoke the_main')
+    asyncify_dt <- sys_dt('wasmtime asyncify2_runnable.wat --invoke runtime')
     
     data[n+1,s,'asyncify'] <- asyncify_dt
     data[n+1,s,'conts'] <- conts_dt
