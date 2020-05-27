@@ -1,4 +1,4 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/env Rscript
 
 max_n <- 22    # 22
 samples <- 10  # 10
