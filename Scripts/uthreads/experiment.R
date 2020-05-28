@@ -14,7 +14,8 @@ sys_dt <- function(cmd) {
 
 
 tests <- sub('\\.c$', '', list.files("programs/uthreads/src/"))
-impls <- c("NATIVE_SWAPCONTEXT", "NATIVE_PTHREAD", "WASMTIME_CONTS", "NATIVE_SERIAL", "WASMTIME_SERIAL", "WASMTIME_CONTS_NO_C_STACK")
+# impls <- c("NATIVE_SWAPCONTEXT", "NATIVE_PTHREAD", "WASMTIME_CONTS", "NATIVE_SERIAL", "WASMTIME_SERIAL", "WASMTIME_CONTS_NO_C_STACK")
+impls <- c("WASMTIME_CONTS", "WASMTIME_SERIAL", "WASMTIME_CONTS_NO_C_STACK")
 df <- data.frame(
   "test"=character(), 
   "impl"=factor(character(), levels=impls), 
@@ -29,6 +30,8 @@ df <- data.frame(
 system("Scripts/uthreads/build_all.sh")
 
 for(test in tests) {
+  if(test == "mat_mult") { next }
+
   for(impl in impls) {
     for(tpy in terms_per_yield_log2) {
       print(paste("Running ", test, "+", impl, " with yield every 2^", tpy, " iterations, ", samples, " samples", sep=""))
