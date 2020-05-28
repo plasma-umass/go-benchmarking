@@ -6,9 +6,11 @@ programs/toy/wasm
 programs/toy/wasm_heap_stack
 programs/uthreads/NATIVE_SWAPCONTEXT
 programs/uthreads/WASMTIME_CONTS
+programs/uthreads/WASMTIME_CONTS_NO_C_STACK
 programs/uthreads/NATIVE_PTHREAD
 programs/uthreads/NATIVE_SERIAL
 programs/uthreads/WASMTIME_SERIAL
+
 
 .ipynb_checkpoints/
 .Rhistory
