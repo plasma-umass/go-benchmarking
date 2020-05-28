@@ -14,7 +14,7 @@ sys_dt <- function(cmd) {
 
 
 tests <- sub('\\.c$', '', list.files("programs/uthreads/src/"))
-impls <- c("NATIVE_SWAPCONTEXT", "NATIVE_PTHREAD", "WASMTIME_CONTS", "NATIVE_SERIAL", "WASMTIME_SERIAL")
+impls <- c("NATIVE_SWAPCONTEXT", "NATIVE_PTHREAD", "WASMTIME_CONTS", "NATIVE_SERIAL", "WASMTIME_SERIAL", "WASMTIME_CONTS_NO_C_STACK")
 df <- data.frame(
   "test"=character(), 
   "impl"=factor(character(), levels=impls), 

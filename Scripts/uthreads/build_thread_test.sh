@@ -23,4 +23,7 @@ elif [ "$impl" = "NATIVE_SERIAL" ]; then
 elif [ "$impl" = "WASMTIME_SERIAL" ]; then
     extra_args="-DCONTEXT_IMPL=WASMTIME_SERIAL"
     emcc_control $in_files $extra_args $out_f.wat
+elif [ "$impl" = "WASMTIME_CONTS_NO_C_STACK" ]; then
+    extra_args="../emcc_control/libs/continuations.c -DCONTEXT_IMPL=WASMTIME_CONTS -DNO_C_STACK=1"
+    emcc_control $in_files $extra_args $out_f.wat
 fi
