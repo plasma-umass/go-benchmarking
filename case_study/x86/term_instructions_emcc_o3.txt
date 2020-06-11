@@ -1,0 +1,43 @@
+0x16ac1241bac0     0  55             push rbp
+0x16ac1241bac1     1  4889e5         REX.W movq rbp,rsp
+0x16ac1241bac4     4  6a0a           push 0xa
+0x16ac1241bac6     6  56             push rsi
+0x16ac1241bac7     7  c5e976d2       vpcmpeqd xmm2,xmm2,xmm2
+0x16ac1241bacb     b  c5e973d201     vpsrlq xmm2,xmm2,1
+0x16ac1241bad0    10  c5e954c1       vandpd xmm0,xmm2,xmm1
+0x16ac1241bad4    14  49ba000000000000e041 REX.W movq r10,0x41e0000000000000
+0x16ac1241bade    1e  c4c1f96ed2     vmovq xmm2,r10
+0x16ac1241bae3    23  c5f92ed0       vucomisd xmm2,xmm0
+0x16ac1241bae7    27  0f870a000000   ja 0x16ac1241baf7  <+0x37>
+0x16ac1241baed    2d  bb00000080     movl rbx,0x80000000
+0x16ac1241baf2    32  e91e000000     jmp 0x16ac1241bb15  <+0x55>
+0x16ac1241baf7    37  c4e3790bc10b   vroundsd xmm0,xmm0,xmm1,0xb
+0x16ac1241bafd    3d  c5fb2cd8       vcvttsd2si rbx,xmm0
+0x16ac1241bb01    41  c5832ad3       vcvtlsi2sd xmm2,xmm15,rbx
+0x16ac1241bb05    45  c5f92ed0       vucomisd xmm2,xmm0
+0x16ac1241bb09    49  0f8a53000000   jpe 0x16ac1241bb62  <+0xa2>
+0x16ac1241bb0f    4f  0f854d000000   jnz 0x16ac1241bb62  <+0xa2>
+0x16ac1241bb15    55  b902000000     movl rcx,0x2
+0x16ac1241bb1a    5a  83f9ff         cmpl rcx,0xff
+0x16ac1241bb1d    5d  0f843b000000   jz 0x16ac1241bb5e  <+0x9e>
+0x16ac1241bb23    63  488bc3         REX.W movq rax,rbx
+0x16ac1241bb26    66  99             cdql
+0x16ac1241bb27    67  f7f9           idivl rcx
+0x16ac1241bb29    69  8d1cd500000000 leal rbx,[rdx*8+0x0]
+0x16ac1241bb30    70  c5f358c1       vaddsd xmm0,xmm1,xmm1
+0x16ac1241bb34    74  ba04000000     movl rdx,0x4
+0x16ac1241bb39    79  2bd3           subl rdx,rbx
+0x16ac1241bb3b    7b  c5e976d2       vpcmpeqd xmm2,xmm2,xmm2
+0x16ac1241bb3f    7f  c5e973f236     vpsllq xmm2,xmm2,54
+0x16ac1241bb44    84  c5e973d202     vpsrlq xmm2,xmm2,2
+0x16ac1241bb49    89  c5fb58c2       vaddsd xmm0,xmm0,xmm2
+0x16ac1241bb4d    8d  c5832ad2       vcvtlsi2sd xmm2,xmm15,rdx
+0x16ac1241bb51    91  c5eb5ec8       vdivsd xmm1,xmm2,xmm0
+0x16ac1241bb55    95  c5f928c9       vmovapd xmm1,xmm1
+0x16ac1241bb59    99  488be5         REX.W movq rsp,rbp
+0x16ac1241bb5c    9c  5d             pop rbp
+0x16ac1241bb5d    9d  c3             retl
+0x16ac1241bb5e    9e  33d2           xorl rdx,rdx
+0x16ac1241bb60    a0  ebc7           jmp 0x16ac1241bb29  <+0x69>
+0x16ac1241bb62    a2  e8b9f5ffff     call 0x16ac1241b120     ;; wasm stub: ThrowWasmTrapFloatUnrepresentable
+0x16ac1241bb67    a7  90             nop

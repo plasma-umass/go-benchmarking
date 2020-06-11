@@ -13,6 +13,7 @@ import (
 	"time"
 )
 
+//go:noinline
 func main() {
 	if len(os.Args) != 2 {
 		panic("Usage: ./pi_no_threads numTerms:int")
@@ -34,6 +35,7 @@ func main() {
 
 // pi launches n goroutines to compute an
 // approximation of pi
+//go:noinline
 func pi(numTerms int) float64 {
 	f := 0.0
 	for k := 0; k < numTerms; k++ {
@@ -44,6 +46,7 @@ func pi(numTerms int) float64 {
 	return f
 }
 
+//go:noinline
 func term(k float64) float64 {
 	sign := 2 * -(int(k) % 2 ) + 1
 	return float64(4 * sign) / (2*k + 1)

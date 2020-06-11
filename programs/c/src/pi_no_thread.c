@@ -1,18 +1,24 @@
 #include <stdio.h>
-#include <math.h>
+// #include <math.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
 
 double term(double k) {
+    // comment
     int sign = 2 * -((int)k % 2 ) + 1;
+    // if(k > 1048576) {
+    //     abort();
+    // }
 	return 4 * sign / (2*k + 1);
 }
 
 double pi(int numTerms) {
     double f = 0.0;
     for(int k = 0; k < numTerms; k++) {
-        f += term((double)k);
+        f += term((double)(k));
+        // printf("%f\n", f);
+        // k += 0xdeadbeef;
     }
 
 	return f;

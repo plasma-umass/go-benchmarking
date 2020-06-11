@@ -12,7 +12,7 @@ import (
 	"os"
 	"strconv"
 	"time"
-	"runtime"
+	// "runtime"
 )
 
 func main() {
@@ -66,7 +66,7 @@ func terms(ch chan float64, threadId int, from int, to int) {
 	for k := from; k <= to; k++ {
 		f += term(float64(k))
 		// fmt.Println(k)
-		runtime.Gosched()
+		// runtime.Gosched()
 	}
 	ch <- f
 }

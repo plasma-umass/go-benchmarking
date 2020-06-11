@@ -1,0 +1,23 @@
+(func $pi (type 18) (param i32) (result f64)
+    (local i32 f64)
+    local.get 0
+    i32.const 0
+    i32.gt_s
+    if  ;; label = @1
+      loop  ;; label = @2
+        local.get 2
+        local.get 1
+        f64.convert_i32_s
+        call $term
+        f64.add
+        local.set 2
+        local.get 1
+        i32.const 1
+        i32.add
+        local.tee 1
+        local.get 0
+        i32.ne
+        br_if 0 (;@2;)
+      end
+    end
+    local.get 2)

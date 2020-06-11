@@ -1,0 +1,29 @@
+(func $term (type 19) (param f64) (result f64)
+    (local f64)
+    local.get 0
+    local.get 0
+    f64.add
+    f64.const 0x1p+0 (;=1;)
+    f64.add
+    local.set 1
+    i32.const 4
+    block (result i32)  ;; label = @1
+      local.get 0
+      f64.abs
+      f64.const 0x1p+31 (;=2.14748e+09;)
+      f64.lt
+      if  ;; label = @2
+        local.get 0
+        i32.trunc_f64_s
+        br 1 (;@1;)
+      end
+      i32.const -2147483648
+    end
+    i32.const 2
+    i32.rem_s
+    i32.const 3
+    i32.shl
+    i32.sub
+    f64.convert_i32_s
+    local.get 1
+    f64.div)
