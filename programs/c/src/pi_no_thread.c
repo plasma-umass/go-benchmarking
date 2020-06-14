@@ -3,7 +3,6 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdint.h>
 
 double term(double k) {
     // comment
@@ -14,9 +13,9 @@ double term(double k) {
 	return 4 * sign / (2*k + 1);
 }
 
-double pi(uint64_t numTerms) {
+double pi(int numTerms) {
     double f = 0.0;
-    for(uint64_t k = 0; k < numTerms; k++) {
+    for(int k = 0; k < numTerms; k++) {
         f += term((double)(k));
         // printf("%f\n", f);
         // k += 0xdeadbeef;
@@ -26,7 +25,7 @@ double pi(uint64_t numTerms) {
 }
 
 int main(int argc, char **argv) {
-    uint64_t numTerms = strtoull(argv[1], NULL, 10);
+    int numTerms = atoi(argv[1]);
 
     struct timespec tstart={0,0}, tend={0,0};
     clock_gettime(CLOCK_MONOTONIC, &tstart);

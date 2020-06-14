@@ -1,0 +1,47 @@
+0x16ac12425b40     0  55             push rbp
+0x16ac12425b41     1  4889e5         REX.W movq rbp,rsp
+0x16ac12425b44     4  6a0a           push 0xa
+0x16ac12425b46     6  56             push rsi
+0x16ac12425b47     7  c5e976d2       vpcmpeqd xmm2,xmm2,xmm2
+0x16ac12425b4b     b  c5e973d201     vpsrlq xmm2,xmm2,1
+0x16ac12425b50    10  c5e954c1       vandpd xmm0,xmm2,xmm1
+0x16ac12425b54    14  49ba000000000000e043 REX.W movq r10,0x43e0000000000000
+0x16ac12425b5e    1e  c4c1f96ed2     vmovq xmm2,r10
+0x16ac12425b63    23  c5f92ed0       vucomisd xmm2,xmm0
+0x16ac12425b67    27  0f870f000000   ja 0x16ac12425b7c  <+0x3c>
+0x16ac12425b6d    2d  48bb0000000000000080 REX.W movq rbx,0x8000000000000000
+0x16ac12425b77    37  e933000000     jmp 0x16ac12425baf  <+0x6f>
+0x16ac12425b7c    3c  c4e1fb2cd9     vcvttsd2siq rbx,xmm1
+0x16ac12425b81    41  ba01000000     movl rdx,0x1
+0x16ac12425b86    46  49ba000000000000e0c3 REX.W movq r10,0xc3e0000000000000
+0x16ac12425b90    50  c441f96efa     vmovq xmm15,r10
+0x16ac12425b95    55  c5792ef9       vucomisd xmm15,xmm1
+0x16ac12425b99    59  7a08           jpe 0x16ac12425ba3  <+0x63>
+0x16ac12425b9b    5b  7408           jz 0x16ac12425ba5  <+0x65>
+0x16ac12425b9d    5d  4883fb01       REX.W cmpq rbx,0x1
+0x16ac12425ba1    61  7102           jno 0x16ac12425ba5  <+0x65>
+0x16ac12425ba3    63  33d2           xorl rdx,rdx
+0x16ac12425ba5    65  4883fa00       REX.W cmpq rdx,0x0
+0x16ac12425ba9    69  0f8456000000   jz 0x16ac12425c05  <+0xc5>
+0x16ac12425baf    6f  b902000000     movl rcx,0x2
+0x16ac12425bb4    74  4883f9ff       REX.W cmpq rcx,0xff
+0x16ac12425bb8    78  0f840d000000   jz 0x16ac12425bcb  <+0x8b>
+0x16ac12425bbe    7e  488bc3         REX.W movq rax,rbx
+0x16ac12425bc1    81  4899           REX.W cdqq
+0x16ac12425bc3    83  48f7f9         REX.W idivq rcx
+0x16ac12425bc6    86  e902000000     jmp 0x16ac12425bcd  <+0x8d>
+0x16ac12425bcb    8b  33d2           xorl rdx,rdx
+0x16ac12425bcd    8d  488d1cd500000000 REX.W leaq rbx,[rdx*8+0x0]
+0x16ac12425bd5    95  c5f358c1       vaddsd xmm0,xmm1,xmm1
+0x16ac12425bd9    99  ba04000000     movl rdx,0x4
+0x16ac12425bde    9e  482bd3         REX.W subq rdx,rbx
+0x16ac12425be1    a1  c5e976d2       vpcmpeqd xmm2,xmm2,xmm2
+0x16ac12425be5    a5  c5e973f236     vpsllq xmm2,xmm2,54
+0x16ac12425bea    aa  c5e973d202     vpsrlq xmm2,xmm2,2
+0x16ac12425bef    af  c5fb58c2       vaddsd xmm0,xmm0,xmm2
+0x16ac12425bf3    b3  c4e1832ad2     vcvtqsi2sd xmm2,xmm15,rdx
+0x16ac12425bf8    b8  c5eb5ec8       vdivsd xmm1,xmm2,xmm0
+0x16ac12425bfc    bc  c5f928c9       vmovapd xmm1,xmm1
+0x16ac12425c00    c0  488be5         REX.W movq rsp,rbp
+0x16ac12425c03    c3  5d             pop rbp
+0x16ac12425c04    c4  c3             retl
