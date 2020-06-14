@@ -1,6 +1,7 @@
 #include <emscripten/emscripten.h>
 #include <stdio.h>
 #include <iostream>
+#include <stdint.h>
 
 #include "../../../../emcc_control/include/continuations.h"
 

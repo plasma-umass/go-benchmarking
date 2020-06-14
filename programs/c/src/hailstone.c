@@ -2,6 +2,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 uint64_t hailstone(uint64_t k) {
     uint64_t i = 0;
