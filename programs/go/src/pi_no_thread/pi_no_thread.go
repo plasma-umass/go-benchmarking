@@ -19,10 +19,11 @@ func main() {
 		panic("Usage: ./pi_no_threads numTerms:int")
 	}
 
-	numTerms, err := strconv.Atoi(os.Args[1])
+	numTerms_, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		panic("Usage: ./pi_no_threads numTerms:int")
 	}
+	numTerms := int64(numTerms_)
 
 	start := time.Now()
 
@@ -36,9 +37,9 @@ func main() {
 // pi launches n goroutines to compute an
 // approximation of pi
 //go:noinline
-func pi(numTerms int) float64 {
+func pi(numTerms int64) float64 {
 	f := 0.0
-	for k := 0; k < numTerms; k++ {
+	for k := int64(0); k < numTerms; k++ {
 		f += term(float64(k))
 		// fmt.Println(k)
 	}
@@ -48,6 +49,6 @@ func pi(numTerms int) float64 {
 
 //go:noinline
 func term(k float64) float64 {
-	sign := 2 * -(int(k) % 2 ) + 1
+	sign := 2 * -(int64(k) % 2 ) + 1
 	return float64(4 * sign) / (2*k + 1)
 }

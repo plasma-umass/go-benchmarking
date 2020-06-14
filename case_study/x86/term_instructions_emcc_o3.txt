@@ -39,5 +39,3 @@
 0x16ac1241bb5d    9d  c3             retl
 0x16ac1241bb5e    9e  33d2           xorl rdx,rdx
 0x16ac1241bb60    a0  ebc7           jmp 0x16ac1241bb29  <+0x69>
-0x16ac1241bb62    a2  e8b9f5ffff     call 0x16ac1241b120     ;; wasm stub: ThrowWasmTrapFloatUnrepresentable
-0x16ac1241bb67    a7  90             nop

@@ -6,16 +6,16 @@
 
 double term(double k) {
     // comment
-    int sign = 2 * -((int)k % 2 ) + 1;
+    int64_t sign = 2 * -((int64_t)k % 2 ) + 1;
     // if(k > 1048576) {
     //     abort();
     // }
 	return 4 * sign / (2*k + 1);
 }
 
-double pi(int numTerms) {
+double pi(uint64_t numTerms) {
     double f = 0.0;
-    for(int k = 0; k < numTerms; k++) {
+    for(uint64_t k = 0; k < numTerms; k++) {
         f += term((double)(k));
         // printf("%f\n", f);
         // k += 0xdeadbeef;
@@ -25,7 +25,7 @@ double pi(int numTerms) {
 }
 
 int main(int argc, char **argv) {
-    int numTerms = atoi(argv[1]);
+    uint64_t numTerms = strtoull(argv[1], NULL, 10);
 
     struct timespec tstart={0,0}, tend={0,0};
     clock_gettime(CLOCK_MONOTONIC, &tstart);

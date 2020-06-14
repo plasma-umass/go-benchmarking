@@ -121,12 +121,3 @@ Instructions (size = 492)
 0x9539eeb0fb9   1b9  488b75f0       REX.W movq rsi,[rbp-0x10]
 0x9539eeb0fbd   1bd  488b45e0       REX.W movq rax,[rbp-0x20]
 0x9539eeb0fc1   1c1  e952feffff     jmp 0x9539eeb0e18  <+0x18>
-0x9539eeb0fc6   1c6  e845c5f4ff     call 0x9539edfd510       ;; wasm stub: ThrowWasmTrapMemOutOfBounds
-0x9539eeb0fcb   1cb  e840c5f4ff     call 0x9539edfd510       ;; wasm stub: ThrowWasmTrapMemOutOfBounds
-0x9539eeb0fd0   1d0  e83bc5f4ff     call 0x9539edfd510       ;; wasm stub: ThrowWasmTrapMemOutOfBounds
-0x9539eeb0fd5   1d5  e836c5f4ff     call 0x9539edfd510       ;; wasm stub: ThrowWasmTrapMemOutOfBounds
-0x9539eeb0fda   1da  e831c5f4ff     call 0x9539edfd510       ;; wasm stub: ThrowWasmTrapMemOutOfBounds
-0x9539eeb0fdf   1df  e82cc5f4ff     call 0x9539edfd510       ;; wasm stub: ThrowWasmTrapMemOutOfBounds
-0x9539eeb0fe4   1e4  e817c5f4ff     call 0x9539edfd500       ;; wasm stub: ThrowWasmTrapUnreachable
-0x9539eeb0fe9   1e9  90             nop
-0x9539eeb0fea   1ea  6690           nop

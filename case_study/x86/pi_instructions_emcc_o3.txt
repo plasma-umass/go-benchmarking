@@ -43,5 +43,3 @@
 0x16ac1241c19b    9b  488b5de0       REX.W movq rbx,[rbp-0x20]
 0x16ac1241c19f    9f  488b75f0       REX.W movq rsi,[rbp-0x10]
 0x16ac1241c1a3    a3  ebb5           jmp 0x16ac1241c15a  <+0x5a>
-0x16ac1241c1a5    a5  90             nop
-0x16ac1241c1a6    a6  6690           nop
