@@ -1,3 +1,9 @@
+--- WebAssembly code ---
+index: 1782
+kind: wasm function
+compiler: TurboFan
+Body (size = 768 = 758 + 10 padding)
+Instructions (size = 736)
 0x9539eeb1020     0  55             push rbp
 0x9539eeb1021     1  4889e5         REX.W movq rbp,rsp
 0x9539eeb1024     4  6a0a           push 0xa

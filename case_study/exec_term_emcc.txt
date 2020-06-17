@@ -1,0 +1,43 @@
+pushq  %rbp
+movq   %rsp, %rbp
+pushq  $0xa
+pushq  %rsi
+vpcmpeqd %xmm2, %xmm2, %xmm2
+vpsrlq $0x1, %xmm2, %xmm2
+vandpd %xmm1, %xmm2, %xmm0
+movabsq $0x43e0000000000000, %r10 ; imm = 0x43E0000000000000
+vmovq  %r10, %xmm2
+vucomisd %xmm0, %xmm2
+ja     0x16ac124265dc
+vcvttsd2si %xmm1, %rbx
+movl   $0x1, %edx
+movabsq $-0x3c20000000000000, %r10 ; imm = 0xC3E0000000000000
+vmovq  %r10, %xmm15
+vucomisd %xmm1, %xmm15
+jp     0x16ac12426603
+je     0x16ac12426605
+cmpq   $0x1, %rbx
+jno    0x16ac12426605
+cmpq   $0x0, %rdx
+je     0x16ac12426665
+movl   $0x2, %ecx
+cmpq   $-0x1, %rcx
+je     0x16ac1242662b
+movq   %rbx, %rax
+cqto
+idivq  %rcx
+jmp    0x16ac1242662d
+leaq   (,%rdx,8), %rbx
+vaddsd %xmm1, %xmm1, %xmm0
+movl   $0x4, %edx
+subq   %rbx, %rdx
+vpcmpeqd %xmm2, %xmm2, %xmm2
+vpsllq $0x36, %xmm2, %xmm2
+vpsrlq $0x2, %xmm2, %xmm2
+vaddsd %xmm2, %xmm0, %xmm0
+vcvtsi2sd %rdx, %xmm15, %xmm2
+vdivsd %xmm0, %xmm2, %xmm1
+vmovapd %xmm1, %xmm1
+movq   %rbp, %rsp
+popq   %rbp
+retq

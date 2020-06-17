@@ -50,10 +50,10 @@ echo "Building C->Native and C->Wasm"
 pushd c
 for p in src/*.c; do
     f=$(basename "$p" .c)
-    clang "src/$f.c" -o "native/O3/$f" -O3 -fno-inline-functions
+    clang "src/$f.c" -o "native/O3/$f" -O2 -fno-inline-functions
     clang "src/$f.c" -o "native/O0/$f" -O0 -fno-inline-functions
-    emcc -g -o "wasm/O0/$f.js" -O0 "src/$f.c" -fno-inline-functions
-    emcc -g -o "wasm/O3/$f.js" -O3 "src/$f.c" -fno-inline-functions
+    emcc -g -o "wasm/O0/$f.js" -O0 -fno-inline-functions "src/$f.c"
+    emcc -g -o "wasm/O3/$f.js" -O2 -fno-inline-functions "src/$f.c"
 done
 popd
 

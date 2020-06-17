@@ -1,0 +1,83 @@
+(func $main.pi (type 0) (param i32) (result i32)
+    (local i32 i64 f64)
+    (local.set 1
+      (global.get 0))
+    (block  ;; label = @1
+      (loop  ;; label = @2
+        (block  ;; label = @3
+          (block  ;; label = @4
+            (block  ;; label = @5
+              (block  ;; label = @6
+                (block  ;; label = @7
+                  (block  ;; label = @8
+                    (br_table 0 (;@8;) 0 (;@8;) 1 (;@7;) 2 (;@6;) 3 (;@5;) 4 (;@4;) 5 (;@3;) (local.get 0)))
+                  (if (i32.le_u (local.get 1) (i32.load offset=16 (i32.wrap_i64 (global.get 2)))) (then
+                    ;; checking for a stack overflow, and extending the stack if needed
+                      (global.set 0
+                        (local.tee 1
+                          (i32.sub
+                            (local.get 1)
+                            (i32.const 8))))
+                      (i64.store
+                        (local.get 1)
+                        (i64.const 383975424))
+                      (call $runtime.morestack_noctxt
+                        (i32.const 0))
+                      (local.set 1
+                        (global.get 0))
+                      (br_if 7 (;@2;))))
+
+                  
+                  
+                  ;; decrement SP
+                  (global.set 0 (local.tee 1 (i32.sub (local.get 1) (i32.const 16))))
+                  (local.set 2 (i64.const 1)) ;; loop counter
+                  (local.set 3 (f64.const 0x0p+0 (;=0;))) ;; float sum
+                  (local.set 0 (i32.const 4)) ;; ????
+                  (br 5 (;@4;)))
+                (i64.store (local.get 1) (local.get 2)) ;; store loop counter on stack
+                (f64.store offset=8 (local.get 1) (local.get 3)) ;; store sum on stack
+                (global.set 0 (local.tee 1 (i32.sub (local.get 1) (i32.const 8)))) ;; decrement SP for bar
+                (i64.store (local.get 1) (i64.const 383975427)) ;; ????
+                (call $main.bar (i32.const 0)) ;; call bar()
+                (local.set 1 (global.get 0)) ;; restore SP, since bar will have increment global 0
+                (br_if 5 (;@4;)))
+              (local.set 2 (i64.add (i64.load (local.get 1)) (i64.const 1))) ;; load old loop counter from stack, increment loop conter
+              ;; load old sum from stack, increment sum
+              (local.set 3 (f64.add (f64.load offset=8 (local.get 1)) (f64.div (f64.const 0x1p+0 (;=1;)) (f64.convert_i64_s (i64.load (local.get 1)))))))
+            (if  ;; label = @10
+              (i32.eqz
+                (i32.wrap_i64
+                  (i64.extend_i32_u
+                    (i64.le_s
+                      (local.get 2)
+                      (i64.load offset=24
+                        (local.get 1))))))
+              (then
+                (local.set 0
+                  (i32.const 5))
+                (br 3 (;@7;))))
+            (local.set 0
+              (i32.const 2))
+            (br 2 (;@8;)))
+          (f64.store
+            (i32.wrap_i64
+              (i64.add
+                (i64.extend_i32_u
+                  (local.get 1))
+                (i64.const 32)))
+            (local.get 3))
+          (global.set 0
+            (local.tee 1
+              (i32.add
+                (local.get 1)
+                (i32.const 16))))
+          (global.set 0
+            (local.tee 1
+              (i32.add
+                (local.get 1)
+                (i32.const 8))))
+          (return
+            (i32.const 0))))
+      (unreachable))
+    (i32.const 1))

@@ -1,4 +1,4 @@
- (func $main.term (type 0) (param i32) (result i32)
+(func $main.term (type 0) (param i32) (result i32)
     (local i32 i64 i64 i64)
     global.get 0
     local.set 1

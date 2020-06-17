@@ -1,0 +1,160 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2512
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-BoldOblique;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww12220\viewh17480\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 0x9539eeb0e00: pushq  %rbp\
+0x9539eeb0e01: movq   %rsp, %rbp\
+0x9539eeb0e04: pushq  $0xa\
+0x9539eeb0e06: pushq  %rsi\
+0x9539eeb0e07: subq   $0x10, %rsp\
+0x9539eeb0e0b: movq   0x2f(%rsi), %rbx\
+0x9539eeb0e0f: cmpq   (%rbx), %rsp\
+0x9539eeb0e12: jbe    0x9539eeb0fb0\
+0x9539eeb0e18: movq   0x17(%rsi), %rbx\
+0x9539eeb0e1c: movq   0x67(%rsi), %rdx\
+0x9539eeb0e20: movl   (%rdx), %edi\
+0x9539eeb0e22: movq   %rdx, -0x18(%rbp)\
+0x9539eeb0e26: cmpl   $0x0, %eax
+\f1\b0 \
+
+\f0\b 0x9539eeb0e29: je     0x9539eeb0e3f\
+
+\f1\b0 0x9539eeb0e2f: xorl   %eax, %eax\
+0x9539eeb0e31: cmpl   $0x0, %eax\
+0x9539eeb0e34: je     0x9539eeb0fe4\
+
+\f2\i\b \
+0x9539eeb0e3a: movq   %rbp, %rsp\
+0x9539eeb0e3d: popq   %rbp\
+0x9539eeb0e3e: retq\
+
+\f1\i0\b0 \
+
+\f0\b 0x9539eeb0e3f: movl   0x10(%rdx), %r8d\
+0x9539eeb0e43: movl   0x10(%r8,%rbx), %r8d\
+0x9539eeb0e48: cmpl   %r8d, %edi\
+0x9539eeb0e4b: ja     0x9539eeb0e82
+\f1\b0 \
+0x9539eeb0e51: subl   $0x8, %edi\
+0x9539eeb0e54: movl   %edi, (%rdx)\
+0x9539eeb0e56: movq   $0x16e40000, (%rbx,%rdi)  ; imm = 0x16E40000\
+0x9539eeb0e5e: movq   %rsi, %rbx\
+0x9539eeb0e61: xorl   %eax, %eax\
+0x9539eeb0e63: movq   %rax, %rdi\
+0x9539eeb0e66: callq  0x9539edfc123\
+0x9539eeb0e6b: movq   -0x10(%rbp), %rsi\
+0x9539eeb0e6f: movq   0x17(%rsi), %rbx\
+0x9539eeb0e73: movq   -0x18(%rbp), %rdx\
+0x9539eeb0e77: movl   (%rdx), %edi\
+0x9539eeb0e79: cmpl   $0x0, %eax\
+0x9539eeb0e7c: jne    0x9539eeb0fa6\
+
+\f0\b 0x9539eeb0e82: movl   $0x3f, %r8d\
+0x9539eeb0e88: cmpq   $0x40, %r8\
+0x9539eeb0e8c: setb   %r9b\
+0x9539eeb0e90: movzbl %r9b, %r9d\
+0x9539eeb0e94: movl   %r9d, %r9d\
+0x9539eeb0e97: movl   %r9d, %r9d\
+0x9539eeb0e9a: movl   %edi, %edi\
+0x9539eeb0e9c: vmovsd 0x8(%rdi,%rbx), %xmm1     ; xmm1 = mem[0],zero\
+0x9539eeb0ea2: movq   %r9, -0x20(%rbp)\
+0x9539eeb0ea6: movq   %rsi, %rbx
+\f1\b0 \
+
+\f0\b 0x9539eeb0ea9: callq  0x9539edfc20f\
+0x9539eeb0eae: cmpl   $0x0, -0x20(%rbp)\
+0x9539eeb0eb2: jne    0x9539eeb0ebf
+\f1\b0 \
+0x9539eeb0eb8: xorl   %edx, %edx\
+0x9539eeb0eba: jmp    0x9539eeb0ec9\
+
+\f0\b 0x9539eeb0ebf: movq   %rax, %rbx\
+0x9539eeb0ec2: shrq   $0x3f, %rbx\
+0x9539eeb0ec6: movq   %rbx, %rdx\
+0x9539eeb0ec9: movl   $0x1, %edi\
+0x9539eeb0ece: cmpq   $0x40, %rdi\
+0x9539eeb0ed2: setb   %r8b\
+0x9539eeb0ed6: movzbl %r8b, %r8d\
+0x9539eeb0eda: movl   %r8d, %r8d\
+0x9539eeb0edd: movl   %r8d, %r8d\
+0x9539eeb0ee0: xorl   %ebx, %ebx
+\f1\b0 \
+
+\f0\b 0x9539eeb0ee2: cmpl   $0x0, %r8d\
+0x9539eeb0ee6: jne    0x9539eeb0ef1
+\f1\b0 \
+0x9539eeb0eec: movl   $0x3f, %edi\
+
+\f0\b 0x9539eeb0ef1: cmpl   $0x0, %r8d\
+0x9539eeb0ef5: jne    0x9539eeb0f03\
+
+\f1\b0 0x9539eeb0efb: movq   %rbx, %rdx\
+0x9539eeb0efe: jmp    0x9539eeb0f0f\
+
+\f0\b 0x9539eeb0f03: addq   %rax, %rdx\
+0x9539eeb0f06: movq   %rdi, %rcx\
+0x9539eeb0f09: sarq   %cl, %rdx\
+0x9539eeb0f0c: shlq   %rdx\
+0x9539eeb0f0f: cmpl   $0x0, %r8d\
+0x9539eeb0f13: jne    0x9539eeb0f21
+\f1\b0 \
+0x9539eeb0f19: movq   %rbx, %rdx\
+0x9539eeb0f1c: jmp    0x9539eeb0f27\
+
+\f0\b 0x9539eeb0f21: subq   %rax, %rdx\
+0x9539eeb0f24: shlq   %rdx\
+0x9539eeb0f27: movl   $0x2, %edi\
+0x9539eeb0f2c: cmpq   $0x40, %rdi\
+0x9539eeb0f30: setb   %dil\
+0x9539eeb0f34: movzbl %dil, %edi\
+0x9539eeb0f38: movl   %edi, %edi\
+0x9539eeb0f3a: movl   %edi, %edi\
+0x9539eeb0f3c: cmpl   $0x0, %edi
+\f1\b0 \
+
+\f0\b 0x9539eeb0f3f: je     0x9539eeb0f4d\
+0x9539eeb0f45: leaq   0x1(%rdx), %rbx\
+0x9539eeb0f49: shlq   $0x2, %rbx\
+0x9539eeb0f4d: movq   -0x10(%rbp), %rdx\
+0x9539eeb0f51: movq   0x17(%rdx), %rdx\
+0x9539eeb0f55: movq   -0x18(%rbp), %rdi\
+0x9539eeb0f59: movl   (%rdi), %r8d\
+0x9539eeb0f5c: vmovsd 0x8(%r8,%rdx), %xmm0      ; xmm0 = mem[0],zero\
+0x9539eeb0f63: vmovsd 0x8(%r8,%rdx), %xmm2      ; xmm2 = mem[0],zero\
+0x9539eeb0f6a: vaddsd %xmm2, %xmm0, %xmm0\
+0x9539eeb0f6e: leaq   0x10(%r8), %r9\
+0x9539eeb0f72: vpcmpeqd %xmm2, %xmm2, %xmm2\
+0x9539eeb0f76: vpsllq $0x36, %xmm2, %xmm2\
+0x9539eeb0f7b: vpsrlq $0x2, %xmm2, %xmm2\
+0x9539eeb0f80: vaddsd %xmm2, %xmm0, %xmm0\
+0x9539eeb0f84: vcvtsi2sd %rbx, %xmm15, %xmm2\
+0x9539eeb0f89: movl   %r9d, %ebx\
+0x9539eeb0f8c: vdivsd %xmm0, %xmm2, %xmm0\
+0x9539eeb0f90: vmovapd %xmm0, %xmm0\
+0x9539eeb0f94: vmovsd %xmm0, (%rdx,%rbx)
+\f1\b0 \
+
+\f0\b 0x9539eeb0f99: leal   0x8(%r8), %ebx\
+0x9539eeb0f9d: movl   %ebx, (%rdi)\
+0x9539eeb0f9f: xorl   %eax, %eax\
+0x9539eeb0fa1: jmp    0x9539eeb0e3a
+\f1\b0 \
+0x9539eeb0fa6: movl   $0x1, %eax\
+0x9539eeb0fab: jmp    0x9539eeb0e3a\
+0x9539eeb0fb0: movq   %rax, -0x20(%rbp)\
+0x9539eeb0fb4: callq  0x9539edfd630\
+0x9539eeb0fb9: movq   -0x10(%rbp), %rsi\
+0x9539eeb0fbd: movq   -0x20(%rbp), %rax\
+0x9539eeb0fc1: jmp    0x9539eeb0e18\
+0x9539eeb0fc6: callq  0x9539edfd510\
+0x9539eeb0fcb: callq  0x9539edfd510\
+0x9539eeb0fd0: callq  0x9539edfd510\
+0x9539eeb0fd5: callq  0x9539edfd510\
+0x9539eeb0fda: callq  0x9539edfd510\
+0x9539eeb0fdf: callq  0x9539edfd510\
+0x9539eeb0fe4: callq  0x9539edfd500\
+0x9539eeb0fe9: nop}

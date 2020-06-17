@@ -1,0 +1,88 @@
+pushq  %rbp
+movq   %rsp, %rbp
+pushq  $0xa
+pushq  %rsi
+
+subq   $0x10, %rsp
+movq   0x2f(%rsi), %rbx
+cmpq   (%rbx), %rsp
+jbe    0x9539eeb0fb0
+movq   0x17(%rsi), %rbx
+movq   0x67(%rsi), %rdx
+movl   (%rdx), %edi
+movq   %rdx, -0x18(%rbp)
+cmpl   $0x0, %eax
+je     0x9539eeb0e3f
+movl   0x10(%rdx), %r8d
+movl   0x10(%r8,%rbx), %r8d
+cmpl   %r8d, %edi
+ja     0x9539eeb0e82
+movl   $0x3f, %r8d
+cmpq   $0x40, %r8
+setb   %r9b
+movzbl %r9b, %r9d
+movl   %r9d, %r9d
+movl   %r9d, %r9d
+movl   %edi, %edi
+vmovsd 0x8(%rdi,%rbx), %xmm1     ; xmm1 = mem[0],zero
+movq   %r9, -0x20(%rbp)
+movq   %rsi, %rbx
+callq  0x9539edfc20f
+cmpl   $0x0, -0x20(%rbp)
+jne    0x9539eeb0ebf
+movq   %rax, %rbx
+shrq   $0x3f, %rbx
+movq   %rbx, %rdx
+movl   $0x1, %edi
+cmpq   $0x40, %rdi
+setb   %r8b
+movzbl %r8b, %r8d
+movl   %r8d, %r8d
+movl   %r8d, %r8d
+xorl   %ebx, %ebx
+cmpl   $0x0, %r8d
+jne    0x9539eeb0ef1
+cmpl   $0x0, %r8d
+jne    0x9539eeb0f03
+addq   %rax, %rdx
+movq   %rdi, %rcx
+sarq   %cl, %rdx
+shlq   %rdx
+cmpl   $0x0, %r8d
+jne    0x9539eeb0f21
+subq   %rax, %rdx
+shlq   %rdx
+movl   $0x2, %edi
+cmpq   $0x40, %rdi
+setb   %dil
+movzbl %dil, %edi
+movl   %edi, %edi
+movl   %edi, %edi
+cmpl   $0x0, %edi
+je     0x9539eeb0f4d
+leaq   0x1(%rdx), %rbx
+shlq   $0x2, %rbx
+movq   -0x10(%rbp), %rdx
+movq   0x17(%rdx), %rdx
+movq   -0x18(%rbp), %rdi
+movl   (%rdi), %r8d
+vmovsd 0x8(%r8,%rdx), %xmm0      ; xmm0 = mem[0],zero
+vmovsd 0x8(%r8,%rdx), %xmm2      ; xmm2 = mem[0],zero
+vaddsd %xmm2, %xmm0, %xmm0
+leaq   0x10(%r8), %r9
+vpcmpeqd %xmm2, %xmm2, %xmm2
+vpsllq $0x36, %xmm2, %xmm2
+vpsrlq $0x2, %xmm2, %xmm2
+vaddsd %xmm2, %xmm0, %xmm0
+vcvtsi2sd %rbx, %xmm15, %xmm2
+movl   %r9d, %ebx
+vdivsd %xmm0, %xmm2, %xmm0
+vmovapd %xmm0, %xmm0
+vmovsd %xmm0, (%rdx,%rbx)
+leal   0x8(%r8), %ebx
+movl   %ebx, (%rdi)
+xorl   %eax, %eax
+jmp    0x9539eeb0e3a
+movq   %rbp, %rsp
+popq   %rbp
+retq
