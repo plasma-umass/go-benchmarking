@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 int32_t the_count1 = 0;
 int32_t the_count2 = 0;
