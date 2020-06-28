@@ -58,6 +58,11 @@ done
 popd
 
 
+cd ../
+
+# Build C-Ray
+Scripts/c-ray_uthreads/build_all.sh
+
 # Build uthreads
 # cd ../
 # Scripts/uthreads/build_all.sh
