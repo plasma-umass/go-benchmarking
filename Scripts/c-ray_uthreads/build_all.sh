@@ -1,3 +1,3 @@
 #!/bin/bash
 cd ../c-ray/
-./build_all.sh
+Scripts/build_all.sh

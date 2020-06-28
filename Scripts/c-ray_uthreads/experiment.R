@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 
-# terms_per_yield_log2 <- c(0, 1, 2, 3, 17)
-yield_every <- c(1, 2, 32, 128)
-samples <- 3  # 10
+# terms_per_yield_log2 <- c(0, 1, 2, 3, 16)
+yield_every <- c(1, 2, 4, 8, 32, 128, 1024, 32768)
+samples <- 6  # 10
 
 
 sys_dt <- function(cmd) {
