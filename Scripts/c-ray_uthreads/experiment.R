@@ -1,7 +1,9 @@
 #!/usr/bin/env Rscript
 
 # terms_per_yield_log2 <- c(0, 1, 2, 3, 16)
-yield_every <- c(1, 2, 4, 8, 32, 128, 1024, 32768)
+yield_every <- c(4, 8, 32, 128, 1024, 32768)
+# yield_every <- c(1)
+
 samples <- 6  # 10
 
 
@@ -9,10 +11,11 @@ sys_dt <- function(cmd) {
   # print(cmd)
   # return(0)
 
-  start_t <- Sys.time()
-  system(cmd)
-  end_t <- Sys.time()
-  return(end_t - start_t)
+  # start_t <- Sys.time()
+  # system(cmd)
+  return(system.time(system(cmd))[3])
+  # end_t <- Sys.time()
+  # return(end_t - start_t)
 }
 
 
