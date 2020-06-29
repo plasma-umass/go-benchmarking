@@ -2,7 +2,7 @@
 
 # terms_per_yield_log2 <- c(0, 1, 2, 3, 16)
 yield_every <- c(1024)
-samples <- 6  # 10
+samples <- 1  # 10
 
 
 sys_dt <- function(cmd) {
@@ -16,7 +16,7 @@ sys_dt <- function(cmd) {
 }
 
 
-tests <- c('input/scene.json', 'input/refraction.json', 'input/fence.json')
+tests <- c('input/scene.json', 'input/refraction.json', 'input/fence.json', 'input/hdr.json', 'input/venus.json', 'input/stormtroopers.json')
 
 impls <- c("serial", "conts", "asyncify")
 df <- data.frame(
