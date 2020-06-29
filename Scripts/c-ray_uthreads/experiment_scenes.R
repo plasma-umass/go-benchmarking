@@ -2,7 +2,7 @@
 
 # terms_per_yield_log2 <- c(0, 1, 2, 3, 16)
 yield_every <- c(1024)
-samples <- 1  # 10
+samples <- 6  # 10
 
 
 sys_dt <- function(cmd) {
@@ -40,6 +40,8 @@ for(test in tests) {
       for(s in 1:samples) {
         dts[s] <- sys_dt(paste('Scripts/c-ray_uthreads/run_test.sh', impl, ye, 0, test))
       }
+      print(paste("Results for: ", test, "+", impl, " with yield every ", ye, " calls, ", samples, " samples", sep=""))
+      print(dts)
       df[nrow(df)+1,] <- list(test, impl, ye, mean(dts), sd(dts))
     }
   }
