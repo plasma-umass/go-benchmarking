@@ -42,11 +42,13 @@ for(test in tests) {
       dts <- rep(0, samples)
       for(s in 1:samples) {
         dts[s] <- sys_dt(paste('Scripts/c-ray_uthreads/run_test.sh', impl, ye, 0, test))
-        print(".")
+        # print(".")
       }
       print(paste("> Results for: ", test, "+", impl, " with yield every ", ye, " calls, ", samples, " samples", sep=""))
       print(paste(">", paste(dts, collapse=" ")))
       df[nrow(df)+1,] <- list(test, impl, ye, mean(dts), sd(dts))
+      writeLines("\n\n\n")
+      print(df)
     }
   }
 }
