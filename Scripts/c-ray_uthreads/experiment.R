@@ -42,6 +42,7 @@ for(test in tests) {
       dts <- rep(0, samples)
       for(s in 1:samples) {
         dts[s] <- sys_dt(paste('> Scripts/c-ray_uthreads/run_test.sh', impl, ye, 0, test))
+        print(".")
       }
       print(paste("> Results for: ", test, "+", impl, " with yield every ", ye, " calls, ", samples, " samples", sep=""))
       print(dts)
