@@ -41,11 +41,11 @@ for(test in tests) {
       # print(paste("> Running ", test, "+", impl, " with yield every ", ye, " calls, ", samples, " samples", sep=""))
       dts <- rep(0, samples)
       for(s in 1:samples) {
-        dts[s] <- sys_dt(paste('> Scripts/c-ray_uthreads/run_test.sh', impl, ye, 0, test))
+        dts[s] <- sys_dt(paste('Scripts/c-ray_uthreads/run_test.sh', impl, ye, 0, test))
         print(".")
       }
       print(paste("> Results for: ", test, "+", impl, " with yield every ", ye, " calls, ", samples, " samples", sep=""))
-      print(dts)
+      print(paste(">", dts))
       df[nrow(df)+1,] <- list(test, impl, ye, mean(dts), sd(dts))
     }
   }
