@@ -6,12 +6,12 @@ require(scales)
 
 load("Results/c-ray_uthreads/scenes_results.rda")
 
-p <- df %>% ggplot(aes(x=test, fill=impl, y=time_mean)) +
+p <- df %>% mutate(impl=recode(impl, serial="Serial", conts="Wasm/k", asyncify="Asyncify")) %>% ggplot(aes(x=test, fill=impl, y=time_mean)) +
   geom_col(position=position_dodge()) +
   geom_errorbar(aes(ymin=time_mean-time_sd, ymax=time_mean+time_sd), 
                 width=.1, position=position_dodge(.9)) +
-  labs(y="Time (s)", x="Benchmark") +
-  facet_wrap(~yield_every, ncol=3, scales="free")
+  labs(y="Time (s)", x="Benchmark", fill="Implementation")
+  # facet_wrap(~yield_every, ncol=3, scales="free")
 
 ggsave("Results/c-ray_uthreads/c-ray_uthreads_scenes.pdf", p)
 
