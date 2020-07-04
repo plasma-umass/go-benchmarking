@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 
 # terms_per_yield_log2 <- c(0, 1, 2, 3, 16)
-yield_every <- c(4, 8, 32, 128, 1024, 4096, 32768)
+# yield_every <- c(4, 8, 32, 128, 1024, 4096, 32768)
+yield_every <- c(65536, 131072, 262144, 524288, 1048576)
 # yield_every <- c(1)
 
 samples <- 6  # 10
