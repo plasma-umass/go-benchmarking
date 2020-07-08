@@ -18,6 +18,6 @@ my_theme <- function(p) {
 }
 
 my_save <- function(name, p) {
-    ggsave(name, width=3.5, height=4)
+    ggsave(name, width=3.5, height=2.5)
     embed_fonts(name)
 }
